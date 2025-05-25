@@ -1066,11 +1066,6 @@ const TripConfirmationStep = ({ tripData, onNext, onBack }: any) => {
     onBack();
   };
 
-  const handlePlanAnother = () => {
-    // Navigate back to home page
-    onBack();
-  };
-
   return (
     <div className="p-4 space-y-6 text-center">
       <div className="text-6xl mb-4">🎉</div>
@@ -1095,13 +1090,6 @@ const TripConfirmationStep = ({ tripData, onNext, onBack }: any) => {
           className="w-full h-12 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl"
         >
           Save Trip & Continue
-        </Button>
-        <Button
-          variant="outline"
-          className="w-full h-12 rounded-xl"
-          onClick={handlePlanAnother}
-        >
-          Plan Another Trip
         </Button>
       </div>
 
