@@ -1,34 +1,40 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { ArrowLeft, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { usePreferences } from '@/contexts/PreferencesContext';
 
 interface AppPreferencesScreenProps {
   onBack: () => void;
 }
 
 const AppPreferencesScreen = ({ onBack }: AppPreferencesScreenProps) => {
-  const [preferences, setPreferences] = useState({
-    darkMode: false,
-    autoSync: true,
-    offlineMode: false,
-    highQualityImages: true,
-    backgroundRefresh: true,
-    soundEffects: false,
-    hapticFeedback: true
-  });
+  const { appPreferences, updateAppPreferences } = usePreferences();
 
-  const [theme, setTheme] = useState('system');
-  const [mapStyle, setMapStyle] = useState('standard');
-  const [units, setUnits] = useState('metric');
+  const handleToggle = (key: keyof typeof appPreferences) => {
+    if (typeof appPreferences[key] === 'boolean') {
+      updateAppPreferences({ [key]: !appPreferences[key] });
+    }
+  };
 
-  const handleToggle = (key: keyof typeof preferences) => {
-    setPreferences(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
+  const handleThemeChange = (value: string) => {
+    if (value) {
+      updateAppPreferences({ theme: value as 'light' | 'dark' | 'system' });
+    }
+  };
+
+  const handleMapStyleChange = (value: string) => {
+    if (value) {
+      updateAppPreferences({ mapStyle: value as 'standard' | 'satellite' | 'terrain' });
+    }
+  };
+
+  const handleUnitsChange = (value: string) => {
+    if (value) {
+      updateAppPreferences({ units: value as 'metric' | 'imperial' });
+    }
   };
 
   return (
@@ -49,7 +55,7 @@ const AppPreferencesScreen = ({ onBack }: AppPreferencesScreenProps) => {
             Theme
           </h3>
           <div className="bg-white rounded-xl p-4">
-            <ToggleGroup type="single" value={theme} onValueChange={setTheme}>
+            <ToggleGroup type="single" value={appPreferences.theme} onValueChange={handleThemeChange}>
               <ToggleGroupItem value="light" className="flex items-center space-x-2">
                 <Sun size={16} />
                 <span>Light</span>
@@ -69,7 +75,7 @@ const AppPreferencesScreen = ({ onBack }: AppPreferencesScreenProps) => {
             Map Style
           </h3>
           <div className="bg-white rounded-xl p-4">
-            <ToggleGroup type="single" value={mapStyle} onValueChange={setMapStyle}>
+            <ToggleGroup type="single" value={appPreferences.mapStyle} onValueChange={handleMapStyleChange}>
               <ToggleGroupItem value="standard">Standard</ToggleGroupItem>
               <ToggleGroupItem value="satellite">Satellite</ToggleGroupItem>
               <ToggleGroupItem value="terrain">Terrain</ToggleGroupItem>
@@ -83,7 +89,7 @@ const AppPreferencesScreen = ({ onBack }: AppPreferencesScreenProps) => {
             Measurement Units
           </h3>
           <div className="bg-white rounded-xl p-4">
-            <ToggleGroup type="single" value={units} onValueChange={setUnits}>
+            <ToggleGroup type="single" value={appPreferences.units} onValueChange={handleUnitsChange}>
               <ToggleGroupItem value="metric">Metric (km, °C)</ToggleGroupItem>
               <ToggleGroupItem value="imperial">Imperial (mi, °F)</ToggleGroupItem>
             </ToggleGroup>
@@ -96,8 +102,10 @@ const AppPreferencesScreen = ({ onBack }: AppPreferencesScreenProps) => {
             App Behavior
           </h3>
           <div className="space-y-3">
-            {Object.entries(preferences).map(([key, value]) => {
-              const labels = {
+            {Object.entries(appPreferences).map(([key, value]) => {
+              if (typeof value !== 'boolean') return null;
+
+              const labels: Record<string, string> = {
                 darkMode: 'Dark Mode',
                 autoSync: 'Auto Sync',
                 offlineMode: 'Offline Mode',
@@ -107,7 +115,7 @@ const AppPreferencesScreen = ({ onBack }: AppPreferencesScreenProps) => {
                 hapticFeedback: 'Haptic Feedback'
               };
 
-              const descriptions = {
+              const descriptions: Record<string, string> = {
                 darkMode: 'Use dark theme for better night viewing',
                 autoSync: 'Automatically sync data when connected',
                 offlineMode: 'Enable offline functionality',
@@ -117,15 +125,20 @@ const AppPreferencesScreen = ({ onBack }: AppPreferencesScreenProps) => {
                 hapticFeedback: 'Enable vibration feedback'
               };
 
+              const label = labels[key];
+              const description = descriptions[key];
+
+              if (!label || !description) return null;
+
               return (
                 <div key={key} className="flex items-center justify-between p-4 bg-white rounded-xl">
                   <div className="flex-1">
-                    <p className="font-medium text-gray-800">{labels[key as keyof typeof labels]}</p>
-                    <p className="text-sm text-gray-600">{descriptions[key as keyof typeof descriptions]}</p>
+                    <p className="font-medium text-gray-800">{label}</p>
+                    <p className="text-sm text-gray-600">{description}</p>
                   </div>
                   <Switch
                     checked={value}
-                    onCheckedChange={() => handleToggle(key as keyof typeof preferences)}
+                    onCheckedChange={() => handleToggle(key as keyof typeof appPreferences)}
                   />
                 </div>
               );

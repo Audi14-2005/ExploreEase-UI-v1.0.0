@@ -1,29 +1,19 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { ArrowLeft, Shield, Lock, Eye, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
+import { usePreferences } from '@/contexts/PreferencesContext';
 
 interface PrivacySecurityScreenProps {
   onBack: () => void;
 }
 
 const PrivacySecurityScreen = ({ onBack }: PrivacySecurityScreenProps) => {
-  const [settings, setSettings] = useState({
-    profileVisibility: true,
-    showTravelHistory: false,
-    allowFriendRequests: true,
-    showOnlineStatus: true,
-    dataSharing: false,
-    locationTracking: true,
-    twoFactorAuth: false
-  });
+  const { privacy, updatePrivacy } = usePreferences();
 
-  const handleToggle = (key: keyof typeof settings) => {
-    setSettings(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
+  const handleToggle = (key: keyof typeof privacy) => {
+    updatePrivacy({ [key]: !privacy[key] });
   };
 
   const securityOptions = [
@@ -78,7 +68,7 @@ const PrivacySecurityScreen = ({ onBack }: PrivacySecurityScreenProps) => {
                       <p className="text-sm text-gray-600">{item.description}</p>
                     </div>
                     <Switch
-                      checked={settings[item.key]}
+                      checked={privacy[item.key]}
                       onCheckedChange={() => handleToggle(item.key)}
                     />
                   </div>

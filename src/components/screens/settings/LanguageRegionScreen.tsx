@@ -1,16 +1,15 @@
 
-import React, { useState } from 'react';
-import { ArrowLeft, Check, Globe } from 'lucide-react';
+import React from 'react';
+import { ArrowLeft, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { usePreferences } from '@/contexts/PreferencesContext';
 
 interface LanguageRegionScreenProps {
   onBack: () => void;
 }
 
 const LanguageRegionScreen = ({ onBack }: LanguageRegionScreenProps) => {
-  const [selectedLanguage, setSelectedLanguage] = useState('en');
-  const [selectedRegion, setSelectedRegion] = useState('US');
-  const [selectedCurrency, setSelectedCurrency] = useState('USD');
+  const { languageRegion, updateLanguageRegion } = usePreferences();
 
   const languages = [
     { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -64,14 +63,14 @@ const LanguageRegionScreen = ({ onBack }: LanguageRegionScreenProps) => {
             {languages.map((language) => (
               <button
                 key={language.code}
-                onClick={() => setSelectedLanguage(language.code)}
+                onClick={() => updateLanguageRegion({ language: language.code })}
                 className="w-full flex items-center justify-between p-4 bg-white rounded-xl hover:bg-gray-50 transition-colors"
               >
                 <div className="flex items-center space-x-3">
                   <span className="text-xl">{language.flag}</span>
                   <span className="font-medium text-gray-800">{language.name}</span>
                 </div>
-                {selectedLanguage === language.code && (
+                {languageRegion.language === language.code && (
                   <Check size={20} className="text-blue-600" />
                 )}
               </button>
@@ -88,14 +87,14 @@ const LanguageRegionScreen = ({ onBack }: LanguageRegionScreenProps) => {
             {regions.map((region) => (
               <button
                 key={region.code}
-                onClick={() => setSelectedRegion(region.code)}
+                onClick={() => updateLanguageRegion({ region: region.code })}
                 className="w-full flex items-center justify-between p-4 bg-white rounded-xl hover:bg-gray-50 transition-colors"
               >
                 <div className="flex items-center space-x-3">
                   <span className="text-xl">{region.flag}</span>
                   <span className="font-medium text-gray-800">{region.name}</span>
                 </div>
-                {selectedRegion === region.code && (
+                {languageRegion.region === region.code && (
                   <Check size={20} className="text-blue-600" />
                 )}
               </button>
@@ -112,7 +111,7 @@ const LanguageRegionScreen = ({ onBack }: LanguageRegionScreenProps) => {
             {currencies.map((currency) => (
               <button
                 key={currency.code}
-                onClick={() => setSelectedCurrency(currency.code)}
+                onClick={() => updateLanguageRegion({ currency: currency.code })}
                 className="w-full flex items-center justify-between p-4 bg-white rounded-xl hover:bg-gray-50 transition-colors"
               >
                 <div className="flex items-center space-x-3">
@@ -122,7 +121,7 @@ const LanguageRegionScreen = ({ onBack }: LanguageRegionScreenProps) => {
                     <p className="text-sm text-gray-600">{currency.code}</p>
                   </div>
                 </div>
-                {selectedCurrency === currency.code && (
+                {languageRegion.currency === currency.code && (
                   <Check size={20} className="text-blue-600" />
                 )}
               </button>

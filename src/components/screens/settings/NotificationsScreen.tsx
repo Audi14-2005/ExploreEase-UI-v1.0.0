@@ -1,32 +1,19 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
+import { usePreferences } from '@/contexts/PreferencesContext';
 
 interface NotificationsScreenProps {
   onBack: () => void;
 }
 
 const NotificationsScreen = ({ onBack }: NotificationsScreenProps) => {
-  const [notifications, setNotifications] = useState({
-    pushNotifications: true,
-    emailNotifications: false,
-    smsNotifications: false,
-    tripReminders: true,
-    friendRequests: true,
-    groupMessages: true,
-    directMessages: true,
-    promotions: false,
-    weatherAlerts: true,
-    priceAlerts: true
-  });
+  const { notifications, updateNotifications } = usePreferences();
 
   const handleToggle = (key: keyof typeof notifications) => {
-    setNotifications(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
+    updateNotifications({ [key]: !notifications[key] });
   };
 
   const notificationGroups = [

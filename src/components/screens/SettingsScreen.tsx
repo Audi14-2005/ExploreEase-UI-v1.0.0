@@ -10,10 +10,12 @@ import {
   HelpCircle, 
   LogOut,
   ChevronRight,
-  User
+  User,
+  RotateCcw
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
+import { usePreferences } from '@/contexts/PreferencesContext';
 import ProfileInformationScreen from './settings/ProfileInformationScreen';
 import NotificationsScreen from './settings/NotificationsScreen';
 import PrivacySecurityScreen from './settings/PrivacySecurityScreen';
@@ -24,11 +26,19 @@ import HelpCenterScreen from './settings/HelpCenterScreen';
 
 const SettingsScreen = () => {
   const { logout } = useAuth();
+  const { resetToDefaults } = usePreferences();
   const [activeScreen, setActiveScreen] = useState<string | null>(null);
 
   const handleLogout = () => {
     logout();
     window.location.reload();
+  };
+
+  const handleResetPreferences = () => {
+    if (window.confirm('Are you sure you want to reset all preferences to default? This action cannot be undone.')) {
+      resetToDefaults();
+      alert('Preferences have been reset to default values.');
+    }
   };
 
   const settingsGroups = [
@@ -165,6 +175,16 @@ const SettingsScreen = () => {
             </div>
           </div>
         ))}
+
+        {/* Reset Preferences */}
+        <Button
+          onClick={handleResetPreferences}
+          variant="outline"
+          className="w-full flex items-center justify-center space-x-2 h-12 rounded-xl text-orange-600 border-orange-200 hover:bg-orange-50"
+        >
+          <RotateCcw size={20} />
+          <span>Reset All Preferences</span>
+        </Button>
 
         {/* App Information */}
         <div className="bg-white rounded-xl p-4">
