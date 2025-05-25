@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 
 interface RoutesScreenProps {
@@ -9,6 +9,12 @@ interface RoutesScreenProps {
 }
 
 const RoutesScreen: React.FC<RoutesScreenProps> = ({ onNext, currentScreen, totalScreens }) => {
+  const [selectedRoute, setSelectedRoute] = useState<'time' | 'scenic' | 'fuel' | null>(null);
+
+  const handleRouteSelect = (route: 'time' | 'scenic' | 'fuel') => {
+    setSelectedRoute(route);
+  };
+
   return (
     <div className="h-full flex flex-col px-6 py-8">
       {/* Main Content */}
@@ -18,38 +24,47 @@ const RoutesScreen: React.FC<RoutesScreenProps> = ({ onNext, currentScreen, tota
           <span className="text-2xl">🗺️</span>
         </div>
 
-        {/* Map Mockup */}
+        {/* Interactive Map Mockup */}
         <div className="relative mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
           <div className="w-56 h-32 bg-white rounded-2xl shadow-xl p-3 border-4 border-blue-100">
             <svg viewBox="0 0 240 120" className="w-full h-full">
               <rect width="240" height="120" fill="#F0F9FF" rx="8" />
               
+              {/* Time Efficient Route - Blue */}
               <path
                 d="M20 80 Q60 40 120 60 Q180 80 220 40"
-                stroke="#22C55E"
-                strokeWidth="4"
+                stroke={selectedRoute === 'time' ? "#3B82F6" : "#D1D5DB"}
+                strokeWidth={selectedRoute === 'time' ? "6" : "4"}
                 fill="none"
-                className="animate-[draw-path_2s_ease-in-out_infinite]"
+                className={selectedRoute === 'time' ? "animate-[draw-path_2s_ease-in-out_infinite]" : ""}
               />
+              
+              {/* Scenic Route - Green */}
               <path
                 d="M20 80 Q120 20 220 40"
-                stroke="#3B82F6"
-                strokeWidth="3"
-                strokeDasharray="6,3"
+                stroke={selectedRoute === 'scenic' ? "#22C55E" : "#D1D5DB"}
+                strokeWidth={selectedRoute === 'scenic' ? "6" : "3"}
+                strokeDasharray={selectedRoute === 'scenic' ? "none" : "6,3"}
                 fill="none"
+                className={selectedRoute === 'scenic' ? "animate-[draw-path_2s_ease-in-out_infinite]" : ""}
               />
+              
+              {/* Fuel Efficient Route - Red */}
               <path
                 d="M20 80 Q80 100 220 40"
-                stroke="#EF4444"
-                strokeWidth="3"
-                strokeDasharray="4,2"
+                stroke={selectedRoute === 'fuel' ? "#EF4444" : "#D1D5DB"}
+                strokeWidth={selectedRoute === 'fuel' ? "6" : "3"}
+                strokeDasharray={selectedRoute === 'fuel' ? "none" : "4,2"}
                 fill="none"
+                className={selectedRoute === 'fuel' ? "animate-[draw-path_2s_ease-in-out_infinite]" : ""}
               />
               
               <circle cx="20" cy="80" r="6" fill="#10B981" />
               <circle cx="220" cy="40" r="6" fill="#EF4444" />
               
-              <text x="110" y="30" fontSize="16" className="animate-bounce">✈️</text>
+              {selectedRoute && (
+                <text x="110" y="30" fontSize="16" className="animate-bounce">✈️</text>
+              )}
               <text x="200" y="50" fontSize="12" className="animate-pulse">🏁</text>
             </svg>
           </div>
@@ -65,31 +80,58 @@ const RoutesScreen: React.FC<RoutesScreenProps> = ({ onNext, currentScreen, tota
           Choose from three optimized route options:
         </p>
 
-        {/* Route Options */}
+        {/* Interactive Route Options */}
         <div className="space-y-3 w-full max-w-xs animate-fade-in" style={{ animationDelay: '0.8s' }}>
-          <div className="flex items-center p-3 bg-blue-50 rounded-2xl border-2 border-blue-200">
-            <div className="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
+          <button
+            onClick={() => handleRouteSelect('time')}
+            className={`flex items-center p-3 rounded-2xl border-2 transition-all duration-200 w-full ${
+              selectedRoute === 'time' 
+                ? 'bg-blue-100 border-blue-500 shadow-lg scale-105' 
+                : 'bg-blue-50 border-blue-200 hover:bg-blue-100'
+            }`}
+          >
+            <div className={`w-3 h-3 rounded-full mr-3 ${
+              selectedRoute === 'time' ? 'bg-blue-600 animate-pulse' : 'bg-blue-500'
+            }`}></div>
             <div className="flex-1 text-left">
               <div className="font-semibold text-sm text-gray-800">Time Efficient</div>
               <div className="text-xs text-gray-600">Fastest way to destination</div>
             </div>
-          </div>
+          </button>
           
-          <div className="flex items-center p-3 bg-green-50 rounded-2xl border-2 border-green-200">
-            <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+          <button
+            onClick={() => handleRouteSelect('scenic')}
+            className={`flex items-center p-3 rounded-2xl border-2 transition-all duration-200 w-full ${
+              selectedRoute === 'scenic' 
+                ? 'bg-green-100 border-green-500 shadow-lg scale-105' 
+                : 'bg-green-50 border-green-200 hover:bg-green-100'
+            }`}
+          >
+            <div className={`w-3 h-3 rounded-full mr-3 ${
+              selectedRoute === 'scenic' ? 'bg-green-600 animate-pulse' : 'bg-green-500'
+            }`}></div>
             <div className="flex-1 text-left">
               <div className="font-semibold text-sm text-gray-800">Scenic/Fun</div>
               <div className="text-xs text-gray-600">Most enjoyable experience</div>
             </div>
-          </div>
+          </button>
           
-          <div className="flex items-center p-3 bg-red-50 rounded-2xl border-2 border-red-200">
-            <div className="w-3 h-3 bg-red-500 rounded-full mr-3"></div>
+          <button
+            onClick={() => handleRouteSelect('fuel')}
+            className={`flex items-center p-3 rounded-2xl border-2 transition-all duration-200 w-full ${
+              selectedRoute === 'fuel' 
+                ? 'bg-red-100 border-red-500 shadow-lg scale-105' 
+                : 'bg-red-50 border-red-200 hover:bg-red-100'
+            }`}
+          >
+            <div className={`w-3 h-3 rounded-full mr-3 ${
+              selectedRoute === 'fuel' ? 'bg-red-600 animate-pulse' : 'bg-red-500'
+            }`}></div>
             <div className="flex-1 text-left">
               <div className="font-semibold text-sm text-gray-800">Fuel Efficient</div>
               <div className="text-xs text-gray-600">Most economical option</div>
             </div>
-          </div>
+          </button>
         </div>
       </div>
 

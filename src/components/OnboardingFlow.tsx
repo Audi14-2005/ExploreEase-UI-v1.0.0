@@ -48,37 +48,40 @@ const OnboardingFlow = () => {
         </button>
       )}
 
-      {/* App Icon */}
-      <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-10">
-        <div className="w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center">
-          <div className="w-12 h-12 relative">
-            <svg viewBox="0 0 24 24" className="w-full h-full text-blue-500">
-              <path
-                fill="currentColor"
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      {/* Large Travel Animations - Properly Centered */}
+      {/* Large Travel Animations with Enhanced Paths */}
       {isTransitioning && (
         <div className="absolute inset-0 z-40 pointer-events-none">
           {currentAnimation === 'plane' && (
-            <div className="absolute bottom-1/2 left-1/4 text-8xl animate-fly-plane-centered drop-shadow-2xl">
-              ✈️
-            </div>
+            <>
+              <div className="absolute bottom-3/4 left-10 text-8xl animate-fly-plane-diagonal drop-shadow-2xl">
+                ✈️
+              </div>
+              {/* Clouds */}
+              <div className="absolute top-1/4 left-1/3 text-4xl opacity-60 animate-float-cloud-1">☁️</div>
+              <div className="absolute top-1/3 right-1/4 text-3xl opacity-40 animate-float-cloud-2">☁️</div>
+              <div className="absolute top-1/2 left-1/2 text-5xl opacity-50 animate-float-cloud-3">☁️</div>
+            </>
           )}
           {currentAnimation === 'bike' && (
-            <div className="absolute top-1/2 -translate-y-1/2 right-20 text-8xl animate-ride-bike-clear drop-shadow-2xl">
-              🚴‍♂️
-            </div>
+            <>
+              <div className="absolute top-1/2 -translate-y-1/2 right-20 text-8xl animate-ride-bike-clear drop-shadow-2xl">
+                🚴‍♂️
+              </div>
+              {/* Wind effects */}
+              <div className="absolute top-1/2 right-32 text-2xl opacity-60 animate-wind-1">💨</div>
+              <div className="absolute top-1/2 right-48 text-xl opacity-40 animate-wind-2">💨</div>
+              <div className="absolute top-1/2 right-64 text-3xl opacity-30 animate-wind-3">💨</div>
+            </>
           )}
           {currentAnimation === 'car' && (
-            <div className="absolute top-1/2 -translate-y-1/2 right-20 text-8xl animate-drive-car-clear drop-shadow-2xl">
-              🚗
-            </div>
+            <>
+              <div className="absolute top-1/2 -translate-y-1/2 right-20 text-8xl animate-drive-car-clear drop-shadow-2xl">
+                🚗
+              </div>
+              {/* Road markings */}
+              <div className="absolute top-1/2 translate-y-4 w-full h-2 bg-gray-400 opacity-50 animate-road-1"></div>
+              <div className="absolute top-1/2 translate-y-6 w-full h-1 bg-white opacity-80 animate-road-dash"></div>
+            </>
           )}
         </div>
       )}

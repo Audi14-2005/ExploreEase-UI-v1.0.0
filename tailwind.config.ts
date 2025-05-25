@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -95,6 +96,62 @@ export default {
 						transform: 'translateY(0)'
 					}
 				},
+				'fly-plane-diagonal': {
+					'0%': {
+						transform: 'translate(0px, 150px) rotate(45deg) scale(0.5)',
+						opacity: '0'
+					},
+					'10%': {
+						opacity: '1',
+						transform: 'translate(50px, 120px) rotate(45deg) scale(0.8)'
+					},
+					'90%': {
+						opacity: '1',
+						transform: 'translate(calc(100vw - 200px), -100px) rotate(45deg) scale(1.2)'
+					},
+					'100%': {
+						transform: 'translate(calc(100vw - 100px), -150px) rotate(45deg) scale(0.8)',
+						opacity: '0'
+					}
+				},
+				'float-cloud-1': {
+					'0%': { transform: 'translateX(-20px)', opacity: '0.6' },
+					'50%': { transform: 'translateX(20px)', opacity: '0.8' },
+					'100%': { transform: 'translateX(-20px)', opacity: '0.6' }
+				},
+				'float-cloud-2': {
+					'0%': { transform: 'translateX(15px)', opacity: '0.4' },
+					'50%': { transform: 'translateX(-15px)', opacity: '0.6' },
+					'100%': { transform: 'translateX(15px)', opacity: '0.4' }
+				},
+				'float-cloud-3': {
+					'0%': { transform: 'translateY(-10px)', opacity: '0.5' },
+					'50%': { transform: 'translateY(10px)', opacity: '0.7' },
+					'100%': { transform: 'translateY(-10px)', opacity: '0.5' }
+				},
+				'wind-1': {
+					'0%': { transform: 'translateX(0) scale(1)', opacity: '0.6' },
+					'50%': { transform: 'translateX(-30px) scale(1.2)', opacity: '0.8' },
+					'100%': { transform: 'translateX(-60px) scale(0.8)', opacity: '0' }
+				},
+				'wind-2': {
+					'0%': { transform: 'translateX(0) scale(0.8)', opacity: '0.4' },
+					'50%': { transform: 'translateX(-40px) scale(1)', opacity: '0.6' },
+					'100%': { transform: 'translateX(-80px) scale(0.6)', opacity: '0' }
+				},
+				'wind-3': {
+					'0%': { transform: 'translateX(0) scale(1.2)', opacity: '0.3' },
+					'50%': { transform: 'translateX(-50px) scale(1.5)', opacity: '0.5' },
+					'100%': { transform: 'translateX(-100px) scale(1)', opacity: '0' }
+				},
+				'road-1': {
+					'0%': { transform: 'translateX(100vw)', opacity: '0.5' },
+					'100%': { transform: 'translateX(-100vw)', opacity: '0.5' }
+				},
+				'road-dash': {
+					'0%': { transform: 'translateX(100vw)', opacity: '0.8' },
+					'100%': { transform: 'translateX(-100vw)', opacity: '0.8' }
+				},
 				'fly-plane-centered': {
 					'0%': {
 						transform: 'translate(-50px, 100px) rotate(45deg) scale(0.5)',
@@ -188,6 +245,15 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.6s ease-out forwards',
+				'fly-plane-diagonal': 'fly-plane-diagonal 1.5s ease-out',
+				'float-cloud-1': 'float-cloud-1 3s ease-in-out infinite',
+				'float-cloud-2': 'float-cloud-2 4s ease-in-out infinite',
+				'float-cloud-3': 'float-cloud-3 3.5s ease-in-out infinite',
+				'wind-1': 'wind-1 1s ease-out infinite',
+				'wind-2': 'wind-2 1.2s ease-out infinite 0.3s',
+				'wind-3': 'wind-3 1.5s ease-out infinite 0.6s',
+				'road-1': 'road-1 1.5s linear',
+				'road-dash': 'road-dash 1.5s linear',
 				'fly-plane-centered': 'fly-plane-centered 1.5s ease-out',
 				'fly-plane-clear': 'fly-plane-clear 1.5s ease-out',
 				'ride-bike-clear': 'ride-bike-clear 1.5s ease-out',
