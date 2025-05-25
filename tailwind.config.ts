@@ -98,19 +98,19 @@ export default {
 				},
 				'fly-plane-diagonal': {
 					'0%': {
-						transform: 'translate(0vw, 100vh) rotate(-45deg) scale(0.5)',
+						transform: 'translate(-50px, 80vh) rotate(-45deg) scale(0.5)',
 						opacity: '0'
 					},
 					'10%': {
 						opacity: '1',
-						transform: 'translate(10vw, 90vh) rotate(-45deg) scale(0.8)'
+						transform: 'translate(10vw, 70vh) rotate(-45deg) scale(0.8)'
 					},
 					'90%': {
 						opacity: '1',
-						transform: 'translate(90vw, 10vh) rotate(-45deg) scale(1.2)'
+						transform: 'translate(80vw, 10vh) rotate(-45deg) scale(1.2)'
 					},
 					'100%': {
-						transform: 'translate(100vw, 0vh) rotate(-45deg) scale(0.8)',
+						transform: 'translate(100vw, -10vh) rotate(-45deg) scale(0.8)',
 						opacity: '0'
 					}
 				},
