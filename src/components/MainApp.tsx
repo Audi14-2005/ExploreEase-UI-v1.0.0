@@ -1,10 +1,10 @@
 
 import React, { useState } from 'react';
-import { Home, Route, DollarSign, User, Settings } from 'lucide-react';
+import { Home, Route, DollarSign, MessageCircle, Settings } from 'lucide-react';
 import ExploreScreen from './screens/ExploreScreen';
 import RoutesMainScreen from './screens/RoutesMainScreen';
 import ExpensesScreen from './screens/ExpensesScreen';
-import ProfileScreen from './screens/ProfileScreen';
+import ChatScreen from './screens/ChatScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import UserStatsHeader from './UserStatsHeader';
 import { AuthProvider } from '@/contexts/AuthContext';
@@ -16,7 +16,7 @@ const MainApp = () => {
     { id: 'explore', label: 'Explore', icon: Home, component: ExploreScreen },
     { id: 'routes', label: 'Routes', icon: Route, component: RoutesMainScreen },
     { id: 'expenses', label: 'Expenses', icon: DollarSign, component: ExpensesScreen },
-    { id: 'profile', label: 'Profile', icon: User, component: ProfileScreen },
+    { id: 'chat', label: 'Chat', icon: MessageCircle, component: ChatScreen },
     { id: 'settings', label: 'Settings', icon: Settings, component: SettingsScreen }
   ];
 
@@ -26,7 +26,7 @@ const MainApp = () => {
     <AuthProvider>
       <div className="h-screen w-screen bg-gray-50 flex flex-col">
         {/* User Stats Header with Profile Picture */}
-        <UserStatsHeader onProfileClick={() => setActiveTab('profile')} />
+        <UserStatsHeader onProfileClick={() => setActiveTab('settings')} />
         
         {/* Main Content */}
         <div className="flex-1 overflow-hidden">
