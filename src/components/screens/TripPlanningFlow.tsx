@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { ArrowLeft, Calendar, MapPin, Plane, Car, Train, Bike, Star, Plus, Sparkles, ShoppingCart } from 'lucide-react';
+import { ArrowLeft, Calendar, MapPin, Plane, Car, Train, Bike, Star, Plus, Sparkles, ShoppingCart, Hotel } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -15,6 +14,7 @@ interface TripData {
   transport: 'bike' | 'car' | 'plane' | 'train' | '';
   selectedSpots: any[];
   watchCart: any[];
+  selectedHotel?: any;
 }
 
 interface TripPlanningFlowProps {
@@ -30,10 +30,11 @@ const TripPlanningFlow = ({ onBack }: TripPlanningFlowProps) => {
     toDate: undefined,
     transport: '',
     selectedSpots: [],
-    watchCart: []
+    watchCart: [],
+    selectedHotel: undefined
   });
 
-  const totalSteps = 7;
+  const totalSteps = 8;
 
   const handleNext = () => {
     if (currentStep < totalSteps) {
@@ -60,10 +61,12 @@ const TripPlanningFlow = ({ onBack }: TripPlanningFlowProps) => {
       case 4:
         return <TransportStep tripData={tripData} setTripData={setTripData} onNext={handleNext} />;
       case 5:
-        return <TripSpotSelectionStep tripData={tripData} setTripData={setTripData} onNext={handleNext} />;
+        return <HotelBookingStep tripData={tripData} setTripData={setTripData} onNext={handleNext} />;
       case 6:
-        return <SummaryStep tripData={tripData} onNext={handleNext} />;
+        return <TripSpotSelectionStep tripData={tripData} setTripData={setTripData} onNext={handleNext} />;
       case 7:
+        return <SummaryStep tripData={tripData} onNext={handleNext} />;
+      case 8:
         return <TripConfirmationStep tripData={tripData} onNext={handleNext} />;
       default:
         return <TripTypeStep tripData={tripData} setTripData={setTripData} onNext={handleNext} />;
@@ -139,7 +142,75 @@ const TripTypeStep = ({ tripData, setTripData, onNext }: any) => {
 const DestinationStep = ({ tripData, setTripData, onNext }: any) => {
   const [selectedDestination, setSelectedDestination] = useState(tripData.destination);
 
-  const destinations = [
+  // Package trip data with comprehensive details
+  const packageTrips = [
+    {
+      id: 'goa-deluxe',
+      name: 'Goa Beach Paradise',
+      location: 'Goa',
+      image: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=400',
+      duration: '5 Days, 4 Nights',
+      transport: 'Flight + AC Car',
+      hotel: {
+        name: 'Taj Fort Aguada Resort & Spa',
+        rating: 4.8,
+        amenities: ['Pool', 'Spa', 'Beach Access', 'Restaurant']
+      },
+      spots: ['Baga Beach', 'Dudhsagar Falls', 'Old Goa Churches', 'Spice Plantation'],
+      description: 'Experience the best of Goa with luxury accommodation, pristine beaches, and cultural exploration.',
+      price: '₹45,000',
+      originalPrice: '₹52,000',
+      rating: 4.8,
+      reviews: 234,
+      isAIRecommended: true,
+      highlights: ['Private beach access', 'Complimentary breakfast', 'Airport transfers', 'Local sightseeing']
+    },
+    {
+      id: 'kerala-backwaters',
+      name: 'Kerala Backwater Bliss',
+      location: 'Kerala',
+      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400',
+      duration: '6 Days, 5 Nights',
+      transport: 'Flight + Houseboat + AC Car',
+      hotel: {
+        name: 'Kumarakom Lake Resort',
+        rating: 4.9,
+        amenities: ['Ayurveda Spa', 'Lake View', 'Traditional Cuisine', 'Yoga']
+      },
+      spots: ['Backwater Houseboat', 'Munnar Tea Gardens', 'Cochin Fort Kochi', 'Periyar Wildlife'],
+      description: 'Immerse yourself in God\'s Own Country with serene backwaters and lush landscapes.',
+      price: '₹38,000',
+      originalPrice: '₹44,000',
+      rating: 4.9,
+      reviews: 189,
+      isAIRecommended: true,
+      highlights: ['Houseboat overnight stay', 'Tea plantation tour', 'Wildlife safari', 'Ayurvedic treatments']
+    },
+    {
+      id: 'rajasthan-royal',
+      name: 'Royal Rajasthan Heritage',
+      location: 'Rajasthan',
+      image: 'https://images.unsplash.com/photo-1477587458883-47145ed94245?w=400',
+      duration: '7 Days, 6 Nights',
+      transport: 'Flight + Heritage Car',
+      hotel: {
+        name: 'Taj Lake Palace Udaipur',
+        rating: 4.7,
+        amenities: ['Heritage Architecture', 'Lake View', 'Royal Dining', 'Cultural Shows']
+      },
+      spots: ['City Palace', 'Amber Fort', 'Hawa Mahal', 'Desert Safari'],
+      description: 'Experience royal heritage with magnificent palaces and desert adventures.',
+      price: '₹42,000',
+      originalPrice: '₹48,000',
+      rating: 4.7,
+      reviews: 156,
+      isAIRecommended: false,
+      highlights: ['Palace hotel stay', 'Camel safari', 'Cultural performances', 'Heritage walks']
+    }
+  ];
+
+  // Regular destinations for "Plan Your Own Trip"
+  const regularDestinations = [
     {
       id: 'goa',
       name: 'Goa',
@@ -222,9 +293,14 @@ const DestinationStep = ({ tripData, setTripData, onNext }: any) => {
     }
   ];
 
+  const destinations = tripData.tripType === 'package' ? packageTrips : regularDestinations;
+
   const handleNext = () => {
     if (selectedDestination) {
-      setTripData({ ...tripData, destination: selectedDestination });
+      const destinationName = tripData.tripType === 'package' 
+        ? packageTrips.find(p => p.id === selectedDestination)?.location || selectedDestination
+        : selectedDestination;
+      setTripData({ ...tripData, destination: destinationName, selectedPackage: selectedDestination });
       onNext();
     }
   };
@@ -232,49 +308,142 @@ const DestinationStep = ({ tripData, setTripData, onNext }: any) => {
   return (
     <div className="p-4 space-y-6">
       <div className="text-center">
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">Where do you want to go?</h2>
-        <p className="text-gray-600">Discover amazing destinations across India</p>
+        <h2 className="text-xl font-semibold text-gray-800 mb-2">
+          {tripData.tripType === 'package' ? 'Choose Your Package' : 'Where do you want to go?'}
+        </h2>
+        <p className="text-gray-600">
+          {tripData.tripType === 'package' 
+            ? 'Select from our curated travel packages' 
+            : 'Discover amazing destinations across India'}
+        </p>
       </div>
 
       <div className="space-y-4">
         {destinations.map((destination) => (
           <button
             key={destination.id}
-            onClick={() => setSelectedDestination(destination.name)}
+            onClick={() => setSelectedDestination(destination.id || destination.name)}
             className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
-              selectedDestination === destination.name
+              selectedDestination === (destination.id || destination.name)
                 ? 'border-blue-500 bg-blue-50'
                 : 'border-gray-200 bg-white hover:border-gray-300'
             }`}
           >
-            <div className="flex space-x-4">
-              <img
-                src={destination.picture}
-                alt={destination.name}
-                className="w-20 h-20 rounded-lg object-cover"
-              />
-              <div className="flex-1 space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <h3 className="font-semibold text-gray-800">{destination.name}</h3>
-                    {destination.isAIRecommended && (
-                      <div className="flex items-center space-x-1 bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs">
-                        <Sparkles size={12} />
-                        <span>AI Pick</span>
+            {tripData.tripType === 'package' ? (
+              <div className="space-y-4">
+                <img
+                  src={destination.image}
+                  alt={destination.name}
+                  className="w-full h-48 rounded-lg object-cover"
+                />
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <h3 className="text-xl font-bold text-gray-800">{destination.name}</h3>
+                      {destination.isAIRecommended && (
+                        <div className="flex items-center space-x-1 bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs">
+                          <Sparkles size={12} />
+                          <span>AI Pick</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="text-right">
+                      <div className="flex items-center space-x-2">
+                        <span className="text-lg font-bold text-gray-800">{destination.price}</span>
+                        <span className="text-sm text-gray-500 line-through">{destination.originalPrice}</span>
                       </div>
-                    )}
-                  </div>
-                  <div className="text-right">
-                    <p className="font-semibold text-gray-800">{destination.price}</p>
-                    <div className="flex items-center space-x-1">
-                      <Star size={14} className="text-yellow-500 fill-current" />
-                      <span className="text-sm text-gray-600">{destination.rating}</span>
+                      <div className="flex items-center space-x-1">
+                        <Star size={14} className="text-yellow-500 fill-current" />
+                        <span className="text-sm text-gray-600">{destination.rating} ({destination.reviews} reviews)</span>
+                      </div>
                     </div>
                   </div>
+                  
+                  <p className="text-gray-600">{destination.description}</p>
+                  
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <span className="font-semibold text-gray-700">Duration:</span>
+                      <p className="text-gray-600">{destination.duration}</p>
+                    </div>
+                    <div>
+                      <span className="font-semibold text-gray-700">Transport:</span>
+                      <p className="text-gray-600">{destination.transport}</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-2">
+                      <Hotel size={16} className="text-blue-600" />
+                      <span className="font-semibold text-gray-700">{destination.hotel.name}</span>
+                      <div className="flex items-center space-x-1">
+                        <Star size={12} className="text-yellow-500 fill-current" />
+                        <span className="text-xs text-gray-600">{destination.hotel.rating}</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {destination.hotel.amenities.map((amenity, index) => (
+                        <span key={index} className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
+                          {amenity}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <span className="font-semibold text-gray-700">Spots to Visit:</span>
+                    <div className="flex flex-wrap gap-1">
+                      {destination.spots.map((spot, index) => (
+                        <span key={index} className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs">
+                          {spot}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <span className="font-semibold text-gray-700">Package Highlights:</span>
+                    <ul className="text-sm text-gray-600 space-y-1">
+                      {destination.highlights.map((highlight, index) => (
+                        <li key={index} className="flex items-center space-x-2">
+                          <span className="text-green-500">✓</span>
+                          <span>{highlight}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <p className="text-sm text-gray-600 line-clamp-2">{destination.description}</p>
               </div>
-            </div>
+            ) : (
+              <div className="flex space-x-4">
+                <img
+                  src={destination.picture}
+                  alt={destination.name}
+                  className="w-20 h-20 rounded-lg object-cover"
+                />
+                <div className="flex-1 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <h3 className="font-semibold text-gray-800">{destination.name}</h3>
+                      {destination.isAIRecommended && (
+                        <div className="flex items-center space-x-1 bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs">
+                          <Sparkles size={12} />
+                          <span>AI Pick</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="text-right">
+                      <p className="font-semibold text-gray-800">{destination.price}</p>
+                      <div className="flex items-center space-x-1">
+                        <Star size={14} className="text-yellow-500 fill-current" />
+                        <span className="text-sm text-gray-600">{destination.rating}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600 line-clamp-2">{destination.description}</p>
+                </div>
+              </div>
+            )}
           </button>
         ))}
       </div>
@@ -428,6 +597,132 @@ const TransportStep = ({ tripData, setTripData, onNext }: any) => {
       <Button
         onClick={handleNext}
         disabled={!selectedTransport}
+        className="w-full h-12 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl disabled:opacity-50"
+      >
+        Continue
+      </Button>
+    </div>
+  );
+};
+
+// Step 5: Hotel Booking (New Step)
+const HotelBookingStep = ({ tripData, setTripData, onNext }: any) => {
+  const [selectedHotel, setSelectedHotel] = useState(tripData.selectedHotel);
+
+  const hotels = {
+    'Goa': [
+      {
+        id: 1,
+        name: 'Taj Fort Aguada Resort & Spa',
+        image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400',
+        rating: 4.8,
+        price: '₹8,500',
+        amenities: ['Pool', 'Spa', 'Beach Access', 'Restaurant', 'WiFi'],
+        description: 'Luxury beachfront resort with world-class amenities'
+      },
+      {
+        id: 2,
+        name: 'The Leela Goa',
+        image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=400',
+        rating: 4.7,
+        price: '₹7,200',
+        amenities: ['Pool', 'Golf Course', 'Spa', 'Multiple Restaurants'],
+        description: 'Premium resort with golf course and multiple dining options'
+      },
+      {
+        id: 3,
+        name: 'Hyatt Centric Candolim',
+        image: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=400',
+        rating: 4.6,
+        price: '₹6,800',
+        amenities: ['Pool', 'Fitness Center', 'Beach Access', 'Bar'],
+        description: 'Modern hotel near Candolim beach with contemporary design'
+      }
+    ],
+    'Kerala': [
+      {
+        id: 4,
+        name: 'Kumarakom Lake Resort',
+        image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400',
+        rating: 4.9,
+        price: '₹9,200',
+        amenities: ['Lake View', 'Ayurveda Spa', 'Traditional Cuisine', 'Yoga'],
+        description: 'Heritage resort on Vembanad Lake with traditional Kerala architecture'
+      },
+      {
+        id: 5,
+        name: 'Taj Malabar Resort & Spa',
+        image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=400',
+        rating: 4.7,
+        price: '₹7,800',
+        amenities: ['Harbor View', 'Spa', 'Pool', 'Multiple Restaurants'],
+        description: 'Historic hotel overlooking Cochin Harbor'
+      }
+    ]
+  };
+
+  const destinationHotels = hotels[tripData.destination as keyof typeof hotels] || hotels['Goa'];
+
+  const handleNext = () => {
+    if (selectedHotel) {
+      setTripData({ ...tripData, selectedHotel });
+      onNext();
+    }
+  };
+
+  return (
+    <div className="p-4 space-y-6">
+      <div className="text-center">
+        <h2 className="text-xl font-semibold text-gray-800 mb-2">Choose Your Hotel</h2>
+        <p className="text-gray-600">Select accommodation for your stay in {tripData.destination}</p>
+      </div>
+
+      <div className="space-y-4">
+        {destinationHotels.map((hotel) => (
+          <button
+            key={hotel.id}
+            onClick={() => setSelectedHotel(hotel)}
+            className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
+              selectedHotel?.id === hotel.id
+                ? 'border-blue-500 bg-blue-50'
+                : 'border-gray-200 bg-white hover:border-gray-300'
+            }`}
+          >
+            <div className="flex space-x-4">
+              <img
+                src={hotel.image}
+                alt={hotel.name}
+                className="w-24 h-24 rounded-lg object-cover"
+              />
+              <div className="flex-1 space-y-2">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-semibold text-gray-800">{hotel.name}</h3>
+                  <div className="text-right">
+                    <p className="font-bold text-lg text-gray-800">{hotel.price}</p>
+                    <p className="text-xs text-gray-500">per night</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <Star size={14} className="text-yellow-500 fill-current" />
+                  <span className="text-sm text-gray-600">{hotel.rating}</span>
+                </div>
+                <p className="text-sm text-gray-600">{hotel.description}</p>
+                <div className="flex flex-wrap gap-1">
+                  {hotel.amenities.map((amenity, index) => (
+                    <span key={index} className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
+                      {amenity}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      <Button
+        onClick={handleNext}
+        disabled={!selectedHotel}
         className="w-full h-12 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl disabled:opacity-50"
       >
         Continue
