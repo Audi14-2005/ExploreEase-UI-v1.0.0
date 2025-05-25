@@ -1018,18 +1018,23 @@ const SummaryStep = ({ tripData, onNext }: any) => {
   );
 };
 
-// Step 7: Trip Confirmation
+// Step 7: Trip Confirmation - Fixed to properly save trips
 const TripConfirmationStep = ({ tripData, onNext }: any) => {
   const handleConfirmTrip = () => {
+    // Calculate total cost based on trip type
+    const totalCost = tripData.tripType === 'package' ? 45000 : 
+      (tripData.watchCart?.reduce((sum: number, item: any) => sum + item.expense, 0) || 25000) +
+      (tripData.selectedHotel?.price ? parseInt(tripData.selectedHotel.price.replace(/[₹,]/g, '')) : 8000);
+
     // Save trip to localStorage for history tracking
     const newTrip = {
       id: Date.now().toString(),
       name: `${tripData.destination} ${tripData.tripType === 'package' ? 'Package' : 'Adventure'}`,
       destination: tripData.destination,
-      startDate: tripData.fromDate ? format(tripData.fromDate, 'yyyy-MM-dd') : '',
-      endDate: tripData.toDate ? format(tripData.toDate, 'yyyy-MM-dd') : '',
+      startDate: tripData.fromDate ? format(tripData.fromDate, 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd'),
+      endDate: tripData.toDate ? format(tripData.toDate, 'yyyy-MM-dd') : format(new Date(Date.now() + 4 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd'),
       status: 'upcoming' as const,
-      budget: tripData.tripType === 'package' ? 45000 : (tripData.watchCart?.reduce((sum: number, item: any) => sum + item.expense, 0) || 25000),
+      budget: totalCost,
       spent: 0,
       travelers: 1,
       duration: tripData.tripType === 'package' ? '5 days' : '4 days',
@@ -1040,7 +1045,11 @@ const TripConfirmationStep = ({ tripData, onNext }: any) => {
       accommodation: tripData.selectedHotel?.name || 'Standard Hotel',
       transportation: tripData.transport.charAt(0).toUpperCase() + tripData.transport.slice(1),
       createdDate: format(new Date(), 'yyyy-MM-dd'),
-      description: `A ${tripData.tripType === 'package' ? 'curated package' : 'custom planned'} trip to ${tripData.destination}.`
+      description: `A ${tripData.tripType === 'package' ? 'curated package' : 'custom planned'} trip to ${tripData.destination}.`,
+      tripType: tripData.tripType,
+      spots: tripData.watchCart || [],
+      hotel: tripData.selectedHotel,
+      package: tripData.selectedPackage
     };
 
     // Get existing trips from localStorage
@@ -1048,7 +1057,8 @@ const TripConfirmationStep = ({ tripData, onNext }: any) => {
     existingTrips.push(newTrip);
     localStorage.setItem('tripHistory', JSON.stringify(existingTrips));
 
-    console.log('Trip confirmed and saved:', newTrip);
+    console.log('Trip confirmed and saved to history:', newTrip);
+    console.log('All trips in history:', existingTrips);
     onNext();
   };
 
