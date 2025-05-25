@@ -106,7 +106,6 @@ const AppPreferencesScreen = ({ onBack }: AppPreferencesScreenProps) => {
               if (typeof value !== 'boolean') return null;
 
               const labels: Record<string, string> = {
-                darkMode: 'Dark Mode',
                 autoSync: 'Auto Sync',
                 offlineMode: 'Offline Mode',
                 highQualityImages: 'High Quality Images',
@@ -116,7 +115,6 @@ const AppPreferencesScreen = ({ onBack }: AppPreferencesScreenProps) => {
               };
 
               const descriptions: Record<string, string> = {
-                darkMode: 'Use dark theme for better night viewing',
                 autoSync: 'Automatically sync data when connected',
                 offlineMode: 'Enable offline functionality',
                 highQualityImages: 'Download high resolution images',

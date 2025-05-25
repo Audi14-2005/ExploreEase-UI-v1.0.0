@@ -25,7 +25,6 @@ interface PrivacySettings {
 }
 
 interface AppPreferences {
-  darkMode: boolean;
   autoSync: boolean;
   offlineMode: boolean;
   highQualityImages: boolean;
@@ -79,7 +78,6 @@ const defaultPrivacy: PrivacySettings = {
 };
 
 const defaultAppPreferences: AppPreferences = {
-  darkMode: false,
   autoSync: true,
   offlineMode: false,
   highQualityImages: true,
@@ -145,8 +143,8 @@ export const PreferencesProvider: React.FC<{ children: React.ReactNode }> = ({ c
   // Apply theme changes to document
   useEffect(() => {
     const applyTheme = () => {
-      const { theme, darkMode } = appPreferences;
-      let shouldUseDarkMode = darkMode;
+      const { theme } = appPreferences;
+      let shouldUseDarkMode = false;
 
       if (theme === 'system') {
         shouldUseDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -156,6 +154,8 @@ export const PreferencesProvider: React.FC<{ children: React.ReactNode }> = ({ c
         shouldUseDarkMode = false;
       }
 
+      console.log('Applying theme:', theme, 'Dark mode:', shouldUseDarkMode);
+      
       if (shouldUseDarkMode) {
         document.documentElement.classList.add('dark');
       } else {
@@ -171,7 +171,7 @@ export const PreferencesProvider: React.FC<{ children: React.ReactNode }> = ({ c
       mediaQuery.addEventListener('change', applyTheme);
       return () => mediaQuery.removeEventListener('change', applyTheme);
     }
-  }, [appPreferences.theme, appPreferences.darkMode]);
+  }, [appPreferences.theme]);
 
   const updateNotifications = (settings: Partial<NotificationSettings>) => {
     const newSettings = { ...notifications, ...settings };
