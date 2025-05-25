@@ -1,29 +1,50 @@
-
 import React from 'react';
 import { DollarSign, TrendingUp, TrendingDown, PieChart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
 const ExpensesScreen = () => {
-  const tripBudgets = [
-    { name: 'Paris Trip', budget: 2500, spent: 1850, color: 'bg-blue-500' },
-    { name: 'Tokyo Adventure', budget: 3000, spent: 2100, color: 'bg-purple-500' },
-    { name: 'NYC Weekend', budget: 1200, spent: 950, color: 'bg-green-500' }
-  ];
-
-  const recentExpenses = [
-    { category: 'Food', amount: 45, date: 'Today', icon: '🍕' },
-    { category: 'Transport', amount: 25, date: 'Today', icon: '🚇' },
-    { category: 'Hotel', amount: 120, date: 'Yesterday', icon: '🏨' },
-    { category: 'Activities', amount: 85, date: '2 days ago', icon: '🎭' }
-  ];
-
-  return (
-    <div className="h-full overflow-y-auto bg-gray-50">
+  const tripBudgets = [{
+    name: 'Paris Trip',
+    budget: 2500,
+    spent: 1850,
+    color: 'bg-blue-500'
+  }, {
+    name: 'Tokyo Adventure',
+    budget: 3000,
+    spent: 2100,
+    color: 'bg-purple-500'
+  }, {
+    name: 'NYC Weekend',
+    budget: 1200,
+    spent: 950,
+    color: 'bg-green-500'
+  }];
+  const recentExpenses = [{
+    category: 'Food',
+    amount: 45,
+    date: 'Today',
+    icon: '🍕'
+  }, {
+    category: 'Transport',
+    amount: 25,
+    date: 'Today',
+    icon: '🚇'
+  }, {
+    category: 'Hotel',
+    amount: 120,
+    date: 'Yesterday',
+    icon: '🏨'
+  }, {
+    category: 'Activities',
+    amount: 85,
+    date: '2 days ago',
+    icon: '🎭'
+  }];
+  return <div className="h-full overflow-y-auto bg-gray-50">
       <div className="p-4 space-y-6">
         {/* Total Budget Overview */}
         <div className="bg-gradient-to-r from-green-500 to-blue-600 rounded-xl p-4 text-white">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-lg font-semibold">Total Budget</h3>
+            <h3 className="text-lg font-semibold">Total Spent</h3>
             <PieChart size={24} />
           </div>
           <div className="flex items-baseline space-x-2">
@@ -53,9 +74,8 @@ const ExpensesScreen = () => {
           <h3 className="text-lg font-semibold text-gray-800 mb-3">Trip Budgets</h3>
           <div className="space-y-3">
             {tripBudgets.map((trip, index) => {
-              const percentage = (trip.spent / trip.budget) * 100;
-              return (
-                <div key={index} className="p-4 bg-white rounded-xl border border-gray-200">
+            const percentage = trip.spent / trip.budget * 100;
+            return <div key={index} className="p-4 bg-white rounded-xl border border-gray-200">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-medium text-gray-800">{trip.name}</h4>
                     <span className="text-sm text-gray-600">
@@ -63,17 +83,15 @@ const ExpensesScreen = () => {
                     </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className={`h-2 rounded-full ${trip.color}`}
-                      style={{ width: `${Math.min(percentage, 100)}%` }}
-                    ></div>
+                    <div className={`h-2 rounded-full ${trip.color}`} style={{
+                  width: `${Math.min(percentage, 100)}%`
+                }}></div>
                   </div>
                   <p className="text-xs text-gray-600 mt-1">
                     {percentage.toFixed(0)}% used • ${trip.budget - trip.spent} remaining
                   </p>
-                </div>
-              );
-            })}
+                </div>;
+          })}
           </div>
         </div>
 
@@ -81,11 +99,7 @@ const ExpensesScreen = () => {
         <div>
           <h3 className="text-lg font-semibold text-gray-800 mb-3">Recent Expenses</h3>
           <div className="space-y-2">
-            {recentExpenses.map((expense, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200"
-              >
+            {recentExpenses.map((expense, index) => <div key={index} className="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200">
                 <div className="flex items-center space-x-3">
                   <span className="text-xl">{expense.icon}</span>
                   <div>
@@ -94,8 +108,7 @@ const ExpensesScreen = () => {
                   </div>
                 </div>
                 <span className="font-semibold text-gray-800">-${expense.amount}</span>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
 
@@ -104,8 +117,6 @@ const ExpensesScreen = () => {
           Track New Expense
         </Button>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default ExpensesScreen;
