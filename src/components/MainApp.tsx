@@ -7,6 +7,7 @@ import ExpensesScreen from './screens/ExpensesScreen';
 import ChatScreen from './screens/ChatScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import TripPlanningFlow from './screens/TripPlanningFlow';
 import UserStatsHeader from './UserStatsHeader';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { PreferencesProvider } from '@/contexts/PreferencesContext';
@@ -14,6 +15,7 @@ import { PreferencesProvider } from '@/contexts/PreferencesContext';
 const MainApp = () => {
   const [activeTab, setActiveTab] = useState('explore');
   const [showProfile, setShowProfile] = useState(false);
+  const [showTripPlanning, setShowTripPlanning] = useState(false);
 
   const tabs = [
     { id: 'explore', label: 'Explore', icon: Home, component: ExploreScreen },
@@ -31,6 +33,14 @@ const MainApp = () => {
     setShowProfile(false);
   };
 
+  const handleStartTripPlanning = () => {
+    setShowTripPlanning(true);
+  };
+
+  const handleBackFromTripPlanning = () => {
+    setShowTripPlanning(false);
+  };
+
   // Show profile screen if profile is active
   if (showProfile) {
     return (
@@ -38,6 +48,19 @@ const MainApp = () => {
         <PreferencesProvider>
           <div className="h-screen w-screen bg-background text-foreground flex flex-col">
             <ProfileScreen onBack={handleBackFromProfile} />
+          </div>
+        </PreferencesProvider>
+      </AuthProvider>
+    );
+  }
+
+  // Show trip planning flow if active
+  if (showTripPlanning) {
+    return (
+      <AuthProvider>
+        <PreferencesProvider>
+          <div className="h-screen w-screen bg-background text-foreground flex flex-col">
+            <TripPlanningFlow onBack={handleBackFromTripPlanning} />
           </div>
         </PreferencesProvider>
       </AuthProvider>
@@ -57,7 +80,11 @@ const MainApp = () => {
           
           {/* Main Content */}
           <div className="flex-1 overflow-hidden bg-background">
-            <ActiveComponent />
+            {activeTab === 'explore' ? (
+              <ExploreScreen onStartTripPlanning={handleStartTripPlanning} />
+            ) : (
+              <ActiveComponent />
+            )}
           </div>
           
           {/* Bottom Navigation */}

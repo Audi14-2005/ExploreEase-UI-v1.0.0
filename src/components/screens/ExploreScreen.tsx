@@ -1,9 +1,12 @@
-
 import React from 'react';
 import { Search, MapPin, Plane, Hotel, Car, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const ExploreScreen = () => {
+interface ExploreScreenProps {
+  onStartTripPlanning?: () => void;
+}
+
+const ExploreScreen = ({ onStartTripPlanning }: ExploreScreenProps) => {
   const quickActions = [
     { icon: Plane, label: 'Flights', color: 'bg-blue-100 text-blue-600' },
     { icon: Hotel, label: 'Hotels', color: 'bg-purple-100 text-purple-600' },
@@ -82,7 +85,10 @@ const ExploreScreen = () => {
         </div>
 
         {/* CTA Button */}
-        <Button className="w-full h-12 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-xl">
+        <Button 
+          onClick={onStartTripPlanning}
+          className="w-full h-12 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-xl"
+        >
           Plan My Indian Adventure
         </Button>
       </div>
