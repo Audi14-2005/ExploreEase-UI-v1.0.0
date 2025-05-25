@@ -4,11 +4,14 @@ import WelcomeScreen from './screens/WelcomeScreen';
 import AIRecommendationsScreen from './screens/AIRecommendationsScreen';
 import RoutesScreen from './screens/RoutesScreen';
 import ReadyScreen from './screens/ReadyScreen';
+import AuthScreen from './screens/AuthScreen';
 import MainApp from './MainApp';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 const OnboardingFlow = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showAuthScreen, setShowAuthScreen] = useState(false);
   const [showMainApp, setShowMainApp] = useState(false);
 
   const screens = [
@@ -35,12 +38,33 @@ const OnboardingFlow = () => {
   };
 
   const handleGetStarted = () => {
+    setShowAuthScreen(true);
+  };
+
+  const handleAuthSuccess = () => {
     setShowMainApp(true);
+  };
+
+  const handleAuthBack = () => {
+    setShowAuthScreen(false);
   };
 
   // Show main app if onboarding is complete
   if (showMainApp) {
-    return <MainApp />;
+    return (
+      <AuthProvider>
+        <MainApp />
+      </AuthProvider>
+    );
+  }
+
+  // Show auth screen
+  if (showAuthScreen) {
+    return (
+      <AuthProvider>
+        <AuthScreen onSuccess={handleAuthSuccess} onBack={handleAuthBack} />
+      </AuthProvider>
+    );
   }
 
   const CurrentScreenComponent = screens[currentScreen].component;
