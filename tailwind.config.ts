@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -94,6 +93,24 @@ export default {
 					'100%': {
 						opacity: '1',
 						transform: 'translateY(0)'
+					}
+				},
+				'fly-plane-clear': {
+					'0%': {
+						transform: 'translateX(calc(100vw + 150px)) scale(0.5)',
+						opacity: '0'
+					},
+					'10%': {
+						opacity: '1',
+						transform: 'translateX(calc(100vw + 100px)) scale(0.8)'
+					},
+					'90%': {
+						opacity: '1',
+						transform: 'translateX(-100px) scale(1.2)'
+					},
+					'100%': {
+						transform: 'translateX(-200px) scale(0.8)',
+						opacity: '0'
 					}
 				},
 				'fly-plane-diagonal': {
@@ -201,6 +218,7 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.6s ease-out forwards',
+				'fly-plane-clear': 'fly-plane-clear 1.5s ease-out',
 				'fly-plane-diagonal': 'fly-plane-diagonal 1.5s ease-out',
 				'float-cloud-1': 'float-cloud-1 1.5s ease-out',
 				'float-cloud-2': 'float-cloud-2 1.5s ease-out 0.2s',

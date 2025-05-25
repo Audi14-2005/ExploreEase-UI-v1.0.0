@@ -53,7 +53,7 @@ const OnboardingFlow = () => {
         <div className="absolute inset-0 z-40 pointer-events-none">
           {currentAnimation === 'plane' && (
             <>
-              <div className="absolute bottom-0 left-0 text-8xl animate-fly-plane-diagonal drop-shadow-2xl">
+              <div className="absolute top-1/2 -translate-y-1/2 right-20 text-8xl animate-fly-plane-clear drop-shadow-2xl">
                 ✈️
               </div>
               {/* Clouds moving with plane */}
@@ -78,7 +78,7 @@ const OnboardingFlow = () => {
               <div className="absolute top-1/2 -translate-y-1/2 right-20 text-8xl animate-drive-car-clear drop-shadow-2xl">
                 🚗
               </div>
-              {/* Wind effects only - no ugly road lines */}
+              {/* Wind effects only */}
               <div className="absolute top-1/2 right-32 text-2xl opacity-60 animate-wind-1">💨</div>
               <div className="absolute top-1/2 right-48 text-xl opacity-40 animate-wind-2">💨</div>
               <div className="absolute top-1/2 right-64 text-3xl opacity-30 animate-wind-3">💨</div>
