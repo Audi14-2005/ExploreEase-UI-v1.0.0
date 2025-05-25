@@ -1,14 +1,15 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import WelcomeScreen from './screens/WelcomeScreen';
 import AIRecommendationsScreen from './screens/AIRecommendationsScreen';
 import RoutesScreen from './screens/RoutesScreen';
 import ReadyScreen from './screens/ReadyScreen';
+import MainApp from './MainApp';
 
 const OnboardingFlow = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showMainApp, setShowMainApp] = useState(false);
 
   const screens = [
     { component: WelcomeScreen, animation: 'plane' },
@@ -32,6 +33,15 @@ const OnboardingFlow = () => {
   const handleSkip = () => {
     setCurrentScreen(screens.length - 1);
   };
+
+  const handleGetStarted = () => {
+    setShowMainApp(true);
+  };
+
+  // Show main app if onboarding is complete
+  if (showMainApp) {
+    return <MainApp />;
+  }
 
   const CurrentScreenComponent = screens[currentScreen].component;
   const currentAnimation = screens[currentScreen].animation;
@@ -89,7 +99,12 @@ const OnboardingFlow = () => {
 
       {/* Screen Content */}
       <div className={`h-full w-full transition-all duration-1000 ${isTransitioning ? 'opacity-20 scale-90 blur-sm' : 'opacity-100 scale-100 blur-0'}`}>
-        <CurrentScreenComponent onNext={handleNext} currentScreen={currentScreen} totalScreens={screens.length} />
+        <CurrentScreenComponent 
+          onNext={handleNext} 
+          onGetStarted={handleGetStarted}
+          currentScreen={currentScreen} 
+          totalScreens={screens.length} 
+        />
       </div>
     </div>
   );

@@ -3,12 +3,13 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 
 interface ReadyScreenProps {
-  onNext: () => void;
+  onNext?: () => void;
+  onGetStarted?: () => void;
   currentScreen: number;
   totalScreens: number;
 }
 
-const ReadyScreen: React.FC<ReadyScreenProps> = ({ onNext, currentScreen, totalScreens }) => {
+const ReadyScreen: React.FC<ReadyScreenProps> = ({ onNext, onGetStarted, currentScreen, totalScreens }) => {
   return (
     <div className="h-full flex flex-col px-6 py-8">
       {/* Main Content */}
@@ -21,7 +22,6 @@ const ReadyScreen: React.FC<ReadyScreenProps> = ({ onNext, currentScreen, totalS
           Travel Starts Here.
         </p>
 
-        {/* Celebration Animation */}
         <div className="relative w-64 h-32 mb-8 animate-fade-in" style={{ animationDelay: '0.4s' }}>
           <svg viewBox="0 0 320 160" className="w-full h-full">
             <path
@@ -62,7 +62,7 @@ const ReadyScreen: React.FC<ReadyScreenProps> = ({ onNext, currentScreen, totalS
       {/* Bottom Section */}
       <div className="w-full max-w-sm mx-auto mt-8">
         <Button 
-          onClick={() => alert('Welcome to ExploreEase! 🎉')}
+          onClick={onGetStarted || (() => alert('Welcome to ExploreEase! 🎉'))}
           className="w-full h-12 bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white font-semibold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
         >
           Get Started
