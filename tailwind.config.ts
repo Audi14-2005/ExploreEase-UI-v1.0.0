@@ -98,36 +98,36 @@ export default {
 				},
 				'fly-plane-diagonal': {
 					'0%': {
-						transform: 'translate(0px, 150px) rotate(45deg) scale(0.5)',
+						transform: 'translate(0vw, 80vh) rotate(-45deg) scale(0.5)',
 						opacity: '0'
 					},
 					'10%': {
 						opacity: '1',
-						transform: 'translate(50px, 120px) rotate(45deg) scale(0.8)'
+						transform: 'translate(5vw, 75vh) rotate(-45deg) scale(0.8)'
 					},
 					'90%': {
 						opacity: '1',
-						transform: 'translate(calc(100vw - 200px), -100px) rotate(45deg) scale(1.2)'
+						transform: 'translate(85vw, 10vh) rotate(-45deg) scale(1.2)'
 					},
 					'100%': {
-						transform: 'translate(calc(100vw - 100px), -150px) rotate(45deg) scale(0.8)',
+						transform: 'translate(100vw, 0vh) rotate(-45deg) scale(0.8)',
 						opacity: '0'
 					}
 				},
 				'float-cloud-1': {
-					'0%': { transform: 'translateX(-20px)', opacity: '0.6' },
-					'50%': { transform: 'translateX(20px)', opacity: '0.8' },
-					'100%': { transform: 'translateX(-20px)', opacity: '0.6' }
+					'0%': { transform: 'translate(10vw, 20vh)', opacity: '0.6' },
+					'50%': { transform: 'translate(50vw, 15vh)', opacity: '0.8' },
+					'100%': { transform: 'translate(90vw, 10vh)', opacity: '0.6' }
 				},
 				'float-cloud-2': {
-					'0%': { transform: 'translateX(15px)', opacity: '0.4' },
-					'50%': { transform: 'translateX(-15px)', opacity: '0.6' },
-					'100%': { transform: 'translateX(15px)', opacity: '0.4' }
+					'0%': { transform: 'translate(20vw, 30vh)', opacity: '0.4' },
+					'50%': { transform: 'translate(60vw, 25vh)', opacity: '0.6' },
+					'100%': { transform: 'translate(80vw, 20vh)', opacity: '0.4' }
 				},
 				'float-cloud-3': {
-					'0%': { transform: 'translateY(-10px)', opacity: '0.5' },
-					'50%': { transform: 'translateY(10px)', opacity: '0.7' },
-					'100%': { transform: 'translateY(-10px)', opacity: '0.5' }
+					'0%': { transform: 'translate(30vw, 25vh)', opacity: '0.5' },
+					'50%': { transform: 'translate(70vw, 20vh)', opacity: '0.7' },
+					'100%': { transform: 'translate(95vw, 15vh)', opacity: '0.5' }
 				},
 				'wind-1': {
 					'0%': { transform: 'translateX(0) scale(1)', opacity: '0.6' },
@@ -144,49 +144,13 @@ export default {
 					'50%': { transform: 'translateX(-50px) scale(1.5)', opacity: '0.5' },
 					'100%': { transform: 'translateX(-100px) scale(1)', opacity: '0' }
 				},
-				'road-1': {
-					'0%': { transform: 'translateX(100vw)', opacity: '0.5' },
-					'100%': { transform: 'translateX(-100vw)', opacity: '0.5' }
-				},
-				'road-dash': {
+				'road-surface': {
 					'0%': { transform: 'translateX(100vw)', opacity: '0.8' },
 					'100%': { transform: 'translateX(-100vw)', opacity: '0.8' }
 				},
-				'fly-plane-centered': {
-					'0%': {
-						transform: 'translate(-50px, 100px) rotate(45deg) scale(0.5)',
-						opacity: '0'
-					},
-					'10%': {
-						opacity: '1',
-						transform: 'translate(-30px, 80px) rotate(45deg) scale(0.8)'
-					},
-					'90%': {
-						opacity: '1',
-						transform: 'translate(250px, -100px) rotate(45deg) scale(1.2)'
-					},
-					'100%': {
-						transform: 'translate(300px, -150px) rotate(45deg) scale(0.8)',
-						opacity: '0'
-					}
-				},
-				'fly-plane-clear': {
-					'0%': {
-						transform: 'translate(-100px, 200px) rotate(45deg) scale(0.5)',
-						opacity: '0'
-					},
-					'10%': {
-						opacity: '1',
-						transform: 'translate(-80px, 180px) rotate(45deg) scale(0.8)'
-					},
-					'90%': {
-						opacity: '1',
-						transform: 'translate(calc(100vw - 100px), -150px) rotate(45deg) scale(1.2)'
-					},
-					'100%': {
-						transform: 'translate(calc(100vw + 50px), -200px) rotate(45deg) scale(0.8)',
-						opacity: '0'
-					}
+				'road-lines': {
+					'0%': { transform: 'translateX(100vw)', opacity: '1' },
+					'100%': { transform: 'translateX(-200vw)', opacity: '1' }
 				},
 				'ride-bike-clear': {
 					'0%': {
@@ -246,16 +210,14 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.6s ease-out forwards',
 				'fly-plane-diagonal': 'fly-plane-diagonal 1.5s ease-out',
-				'float-cloud-1': 'float-cloud-1 3s ease-in-out infinite',
-				'float-cloud-2': 'float-cloud-2 4s ease-in-out infinite',
-				'float-cloud-3': 'float-cloud-3 3.5s ease-in-out infinite',
+				'float-cloud-1': 'float-cloud-1 1.5s ease-out',
+				'float-cloud-2': 'float-cloud-2 1.5s ease-out 0.2s',
+				'float-cloud-3': 'float-cloud-3 1.5s ease-out 0.4s',
 				'wind-1': 'wind-1 1s ease-out infinite',
 				'wind-2': 'wind-2 1.2s ease-out infinite 0.3s',
 				'wind-3': 'wind-3 1.5s ease-out infinite 0.6s',
-				'road-1': 'road-1 1.5s linear',
-				'road-dash': 'road-dash 1.5s linear',
-				'fly-plane-centered': 'fly-plane-centered 1.5s ease-out',
-				'fly-plane-clear': 'fly-plane-clear 1.5s ease-out',
+				'road-surface': 'road-surface 1.5s linear',
+				'road-lines': 'road-lines 0.8s linear infinite',
 				'ride-bike-clear': 'ride-bike-clear 1.5s ease-out',
 				'drive-car-clear': 'drive-car-clear 1.5s ease-out',
 				'dash': 'dash 2s ease-in-out infinite',

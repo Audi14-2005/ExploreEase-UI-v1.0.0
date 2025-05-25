@@ -48,18 +48,18 @@ const OnboardingFlow = () => {
         </button>
       )}
 
-      {/* Large Travel Animations with Enhanced Paths */}
+      {/* Large Travel Animations */}
       {isTransitioning && (
         <div className="absolute inset-0 z-40 pointer-events-none">
           {currentAnimation === 'plane' && (
             <>
-              <div className="absolute bottom-3/4 left-10 text-8xl animate-fly-plane-diagonal drop-shadow-2xl">
+              <div className="absolute bottom-0 left-0 text-8xl animate-fly-plane-diagonal drop-shadow-2xl">
                 ✈️
               </div>
-              {/* Clouds */}
-              <div className="absolute top-1/4 left-1/3 text-4xl opacity-60 animate-float-cloud-1">☁️</div>
-              <div className="absolute top-1/3 right-1/4 text-3xl opacity-40 animate-float-cloud-2">☁️</div>
-              <div className="absolute top-1/2 left-1/2 text-5xl opacity-50 animate-float-cloud-3">☁️</div>
+              {/* Clouds moving with plane */}
+              <div className="absolute text-4xl opacity-60 animate-float-cloud-1">☁️</div>
+              <div className="absolute text-3xl opacity-40 animate-float-cloud-2">☁️</div>
+              <div className="absolute text-5xl opacity-50 animate-float-cloud-3">☁️</div>
             </>
           )}
           {currentAnimation === 'bike' && (
@@ -78,15 +78,16 @@ const OnboardingFlow = () => {
               <div className="absolute top-1/2 -translate-y-1/2 right-20 text-8xl animate-drive-car-clear drop-shadow-2xl">
                 🚗
               </div>
-              {/* Road markings */}
-              <div className="absolute top-1/2 translate-y-4 w-full h-2 bg-gray-400 opacity-50 animate-road-1"></div>
-              <div className="absolute top-1/2 translate-y-6 w-full h-1 bg-white opacity-80 animate-road-dash"></div>
+              {/* Improved road with surface and animated dashed lines */}
+              <div className="absolute top-1/2 translate-y-4 w-full h-8 bg-gray-600 opacity-70 animate-road-surface"></div>
+              <div className="absolute top-1/2 translate-y-6 w-full h-1 bg-yellow-300 opacity-90 animate-road-lines" style={{backgroundImage: 'repeating-linear-gradient(to right, transparent 0px, transparent 20px, #FDE047 20px, #FDE047 40px)'}}></div>
+              <div className="absolute top-1/2 translate-y-8 w-full h-1 bg-yellow-300 opacity-90 animate-road-lines" style={{backgroundImage: 'repeating-linear-gradient(to right, transparent 0px, transparent 20px, #FDE047 20px, #FDE047 40px)', animationDelay: '0.4s'}}></div>
             </>
           )}
         </div>
       )}
 
-      {/* Screen Content with Enhanced Transition */}
+      {/* Screen Content */}
       <div className={`h-full w-full transition-all duration-1000 ${isTransitioning ? 'opacity-20 scale-90 blur-sm' : 'opacity-100 scale-100 blur-0'}`}>
         <CurrentScreenComponent onNext={handleNext} currentScreen={currentScreen} totalScreens={screens.length} />
       </div>
