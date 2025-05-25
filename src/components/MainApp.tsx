@@ -8,6 +8,7 @@ import ChatScreen from './screens/ChatScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import TripPlanningFlow from './screens/TripPlanningFlow';
+import TripHistoryScreen from './screens/TripHistoryScreen';
 import UserStatsHeader from './UserStatsHeader';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { PreferencesProvider } from '@/contexts/PreferencesContext';
@@ -16,6 +17,7 @@ const MainApp = () => {
   const [activeTab, setActiveTab] = useState('explore');
   const [showProfile, setShowProfile] = useState(false);
   const [showTripPlanning, setShowTripPlanning] = useState(false);
+  const [showTripHistory, setShowTripHistory] = useState(false);
 
   const tabs = [
     { id: 'explore', label: 'Explore', icon: Home, component: ExploreScreen },
@@ -39,6 +41,14 @@ const MainApp = () => {
 
   const handleBackFromTripPlanning = () => {
     setShowTripPlanning(false);
+  };
+
+  const handleShowTripHistory = () => {
+    setShowTripHistory(true);
+  };
+
+  const handleBackFromTripHistory = () => {
+    setShowTripHistory(false);
   };
 
   // Show profile screen if profile is active
@@ -67,6 +77,19 @@ const MainApp = () => {
     );
   }
 
+  // Show trip history if active
+  if (showTripHistory) {
+    return (
+      <AuthProvider>
+        <PreferencesProvider>
+          <div className="h-screen w-screen bg-background text-foreground flex flex-col">
+            <TripHistoryScreen onBack={handleBackFromTripHistory} />
+          </div>
+        </PreferencesProvider>
+      </AuthProvider>
+    );
+  }
+
   const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component || ExploreScreen;
 
   return (
@@ -81,7 +104,10 @@ const MainApp = () => {
           {/* Main Content */}
           <div className="flex-1 overflow-hidden bg-background">
             {activeTab === 'explore' ? (
-              <ExploreScreen onStartTripPlanning={handleStartTripPlanning} />
+              <ExploreScreen 
+                onStartTripPlanning={handleStartTripPlanning} 
+                onShowTripHistory={handleShowTripHistory}
+              />
             ) : (
               <ActiveComponent />
             )}

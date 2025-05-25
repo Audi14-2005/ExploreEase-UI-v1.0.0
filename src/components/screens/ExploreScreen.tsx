@@ -1,13 +1,14 @@
 
 import React from 'react';
-import { Search, MapPin, Plane, Hotel, Car, Star } from 'lucide-react';
+import { Search, MapPin, Plane, Hotel, Car, Star, History } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface ExploreScreenProps {
   onStartTripPlanning?: () => void;
+  onShowTripHistory?: () => void;
 }
 
-const ExploreScreen = ({ onStartTripPlanning }: ExploreScreenProps) => {
+const ExploreScreen = ({ onStartTripPlanning, onShowTripHistory }: ExploreScreenProps) => {
   const quickActions = [
     { icon: Plane, label: 'Flights', color: 'bg-blue-100 text-blue-600' },
     { icon: Hotel, label: 'Hotels', color: 'bg-purple-100 text-purple-600' },
@@ -57,13 +58,21 @@ const ExploreScreen = ({ onStartTripPlanning }: ExploreScreenProps) => {
           </div>
         </div>
 
-        {/* CTA Button - Moved to middle */}
-        <div className="flex justify-center my-8">
+        {/* Action Buttons Row */}
+        <div className="grid grid-cols-2 gap-3">
           <Button 
             onClick={onStartTripPlanning}
-            className="w-3/4 h-12 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-xl"
+            className="h-12 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-xl"
           >
-            Plan My Indian Adventure
+            Plan New Trip
+          </Button>
+          <Button 
+            onClick={onShowTripHistory}
+            variant="outline"
+            className="h-12 rounded-xl flex items-center justify-center space-x-2"
+          >
+            <History size={20} />
+            <span>Trip History</span>
           </Button>
         </div>
 
