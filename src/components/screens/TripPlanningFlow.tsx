@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Calendar, MapPin, Plane, Car, Train, Bike, Star, Plus, Sparkles, ShoppingCart, Hotel, Bus, Taxi } from 'lucide-react';
+import { ArrowLeft, Calendar, MapPin, Plane, Car, Train, Bike, Star, Plus, Sparkles, ShoppingCart, Hotel, Bus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -119,7 +119,7 @@ const TripPlanningFlow = ({ onBack }: TripPlanningFlowProps) => {
             destination={tripData.destination}
             transport={tripData.transport}
             onNext={handleRoutesNext}
-            currentStep={4}
+            currentScreen={4}
             totalScreens={totalSteps}
           />
         </div>
@@ -628,7 +628,7 @@ const TransportStep = ({ tripData, setTripData, onNext }: any) => {
   const transports = [
     { id: 'bike', label: 'Bike', icon: Bike, color: 'bg-green-100 text-green-600' },
     { id: 'car', label: 'Car', icon: Car, color: 'bg-blue-100 text-blue-600' },
-    { id: 'cab', label: 'Cab', icon: Taxi, color: 'bg-yellow-100 text-yellow-600' },
+    { id: 'cab', label: 'Cab', icon: Car, color: 'bg-yellow-100 text-yellow-600' },
     { id: 'bus', label: 'Bus', icon: Bus, color: 'bg-orange-100 text-orange-600' },
     { id: 'plane', label: 'Aeroplane', icon: Plane, color: 'bg-purple-100 text-purple-600' },
     { id: 'train', label: 'Train', icon: Train, color: 'bg-red-100 text-red-600' }
