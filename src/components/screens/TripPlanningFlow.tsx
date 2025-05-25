@@ -81,10 +81,10 @@ const TripPlanningFlow = ({ onBack }: TripPlanningFlowProps) => {
     }
   };
 
-  const handleTransportNext = () => {
+  const handleTransportNext = (selectedTransport: string) => { // Added parameter
     // If car, bike, or cab is selected for "Plan Your Own Trip", show routes page
-    if (tripData.tripType === 'own' && (tripData.transport === 'car' || tripData.transport === 'bike' || tripData.transport === 'cab')) {
-      console.log('Should show routes page for transport:', tripData.transport);
+    if (tripData.tripType === 'own' && (selectedTransport === 'car' || selectedTransport === 'bike' || selectedTransport === 'cab')) { // Used parameter
+      console.log('Should show routes page for transport:', selectedTransport); // Log the parameter
       setShowRoutesPage(true);
     } else {
       handleNext();
@@ -638,7 +638,7 @@ const TransportStep = ({ tripData, setTripData, onNext }: any) => {
   const handleNext = () => {
     if (selectedTransport) {
       setTripData({ ...tripData, transport: selectedTransport });
-      onNext();
+      onNext(selectedTransport);
     }
   };
 
