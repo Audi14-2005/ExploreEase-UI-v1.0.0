@@ -1,10 +1,11 @@
 
 import React, { useState } from 'react';
-import { Home, Route, DollarSign, User } from 'lucide-react';
+import { Home, Route, DollarSign, User, Settings } from 'lucide-react';
 import ExploreScreen from './screens/ExploreScreen';
 import RoutesMainScreen from './screens/RoutesMainScreen';
 import ExpensesScreen from './screens/ExpensesScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import SettingsScreen from './screens/SettingsScreen';
 import UserStatsHeader from './UserStatsHeader';
 
 const MainApp = () => {
@@ -14,15 +15,16 @@ const MainApp = () => {
     { id: 'explore', label: 'Explore', icon: Home, component: ExploreScreen },
     { id: 'routes', label: 'Routes', icon: Route, component: RoutesMainScreen },
     { id: 'expenses', label: 'Expenses', icon: DollarSign, component: ExpensesScreen },
-    { id: 'profile', label: 'Profile', icon: User, component: ProfileScreen }
+    { id: 'profile', label: 'Profile', icon: User, component: ProfileScreen },
+    { id: 'settings', label: 'Settings', icon: Settings, component: SettingsScreen }
   ];
 
   const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component || ExploreScreen;
 
   return (
     <div className="h-screen w-screen bg-gray-50 flex flex-col">
-      {/* User Stats Header */}
-      <UserStatsHeader />
+      {/* User Stats Header with Profile Picture */}
+      <UserStatsHeader onProfileClick={() => setActiveTab('profile')} />
       
       {/* Main Content */}
       <div className="flex-1 overflow-hidden">

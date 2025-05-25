@@ -2,14 +2,26 @@
 import React from 'react';
 import { Trophy, MapPin, Plane, Navigation } from 'lucide-react';
 
-const UserStatsHeader = () => {
+interface UserStatsHeaderProps {
+  onProfileClick: () => void;
+}
+
+const UserStatsHeader = ({ onProfileClick }: UserStatsHeaderProps) => {
   return (
     <div className="bg-white px-4 py-3 border-b border-gray-200">
       <div className="flex items-center justify-between">
-        {/* User Greeting */}
-        <div>
-          <h2 className="text-lg font-semibold text-gray-800">Hi, Alex!</h2>
-          <p className="text-sm text-gray-600">Ready for your next adventure?</p>
+        {/* Profile Picture and User Greeting */}
+        <div className="flex items-center space-x-3">
+          <button
+            onClick={onProfileClick}
+            className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-lg font-bold hover:shadow-lg transition-shadow"
+          >
+            A
+          </button>
+          <div>
+            <h2 className="text-lg font-semibold text-gray-800">Hi, Alex!</h2>
+            <p className="text-sm text-gray-600">Ready for your next adventure?</p>
+          </div>
         </div>
         
         {/* Stats */}

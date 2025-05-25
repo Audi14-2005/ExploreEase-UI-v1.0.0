@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Settings, Users, Trophy, Star, MapPin, Plane } from 'lucide-react';
+import { Users, Trophy, Star, MapPin, Plane } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const ProfileScreen = () => {
@@ -108,15 +108,6 @@ const ProfileScreen = () => {
             ))}
           </div>
         </div>
-
-        {/* Settings */}
-        <Button
-          variant="outline"
-          className="w-full flex items-center justify-center space-x-2 h-12 rounded-xl"
-        >
-          <Settings size={20} />
-          <span>Settings & Preferences</span>
-        </Button>
       </div>
     </div>
   );
