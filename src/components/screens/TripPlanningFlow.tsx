@@ -15,6 +15,7 @@ interface TripData {
   selectedSpots: any[];
   watchCart: any[];
   selectedHotel?: any;
+  selectedPackage?: any;
 }
 
 interface TripPlanningFlowProps {
@@ -31,20 +32,47 @@ const TripPlanningFlow = ({ onBack }: TripPlanningFlowProps) => {
     transport: '',
     selectedSpots: [],
     watchCart: [],
-    selectedHotel: undefined
+    selectedHotel: undefined,
+    selectedPackage: undefined
   });
 
   const totalSteps = 8;
 
   const handleNext = () => {
     if (currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
+      // For package trips, skip certain steps
+      if (tripData.tripType === 'package') {
+        if (currentStep === 2) {
+          // After destination selection for package, go to date step
+          setCurrentStep(3);
+        } else if (currentStep === 3) {
+          // After date selection for package, go to summary
+          setCurrentStep(7);
+        } else {
+          setCurrentStep(currentStep + 1);
+        }
+      } else {
+        setCurrentStep(currentStep + 1);
+      }
     }
   };
 
   const handleBack = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
+      // Handle back navigation for package trips
+      if (tripData.tripType === 'package') {
+        if (currentStep === 7) {
+          // From summary back to date for package trips
+          setCurrentStep(3);
+        } else if (currentStep === 3) {
+          // From date back to destination for package trips
+          setCurrentStep(2);
+        } else {
+          setCurrentStep(currentStep - 1);
+        }
+      } else {
+        setCurrentStep(currentStep - 1);
+      }
     } else {
       onBack();
     }
@@ -74,16 +102,16 @@ const TripPlanningFlow = ({ onBack }: TripPlanningFlowProps) => {
   };
 
   return (
-    <div className="h-full bg-gray-50 flex flex-col">
+    <div className="h-full bg-gray-50 dark:bg-gray-900 flex flex-col">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 p-4">
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4">
         <div className="flex items-center justify-between">
           <Button variant="ghost" size="icon" onClick={handleBack}>
             <ArrowLeft size={20} />
           </Button>
           <div className="text-center">
-            <h1 className="text-lg font-semibold text-gray-800">Plan Your Trip</h1>
-            <p className="text-sm text-gray-600">Step {currentStep} of {totalSteps}</p>
+            <h1 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Plan Your Trip</h1>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Step {currentStep} of {totalSteps}</p>
           </div>
           <div className="w-10" />
         </div>
@@ -107,30 +135,30 @@ const TripTypeStep = ({ tripData, setTripData, onNext }: any) => {
   return (
     <div className="p-4 space-y-6">
       <div className="text-center">
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">Trip Type</h2>
-        <p className="text-gray-600">Choose how you want to plan your trip</p>
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">Trip Type</h2>
+        <p className="text-gray-600 dark:text-gray-400">Choose how you want to plan your trip</p>
       </div>
 
       <div className="space-y-4">
         <button
           onClick={() => handleSelect('package')}
-          className="w-full p-6 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all"
+          className="w-full p-6 bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all"
         >
           <div className="text-center">
             <div className="text-4xl mb-2">📦</div>
-            <h3 className="text-lg font-semibold text-gray-800">Package Trip</h3>
-            <p className="text-sm text-gray-600">Pre-planned trips with recommendations</p>
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Package Trip</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Pre-planned trips with recommendations</p>
           </div>
         </button>
 
         <button
           onClick={() => handleSelect('own')}
-          className="w-full p-6 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all"
+          className="w-full p-6 bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all"
         >
           <div className="text-center">
             <div className="text-4xl mb-2">🗺️</div>
-            <h3 className="text-lg font-semibold text-gray-800">Plan Your Own Trip</h3>
-            <p className="text-sm text-gray-600">Customize your own adventure</p>
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Plan Your Own Trip</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Customize your own adventure</p>
           </div>
         </button>
       </div>
@@ -308,10 +336,10 @@ const DestinationStep = ({ tripData, setTripData, onNext }: any) => {
   return (
     <div className="p-4 space-y-6">
       <div className="text-center">
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
           {tripData.tripType === 'package' ? 'Choose Your Package' : 'Where do you want to go?'}
         </h2>
-        <p className="text-gray-600">
+        <p className="text-gray-600 dark:text-gray-400">
           {tripData.tripType === 'package' 
             ? 'Select from our curated travel packages' 
             : 'Discover amazing destinations across India'}
@@ -465,7 +493,7 @@ const DateStep = ({ tripData, setTripData, onNext }: any) => {
   const [toDate, setToDate] = useState<Date | undefined>(tripData.toDate);
 
   const handleNext = () => {
-    if (fromDate && toDate) {
+    if (fromDate && (tripData.tripType === 'package' || toDate)) {
       setTripData({ ...tripData, fromDate, toDate });
       onNext();
     }
@@ -474,19 +502,25 @@ const DateStep = ({ tripData, setTripData, onNext }: any) => {
   return (
     <div className="p-4 space-y-6">
       <div className="text-center">
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">From when to when?</h2>
-        <p className="text-gray-600">Select your travel dates</p>
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          {tripData.tripType === 'package' ? 'When do you want to start?' : 'From when to when?'}
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400">
+          {tripData.tripType === 'package' ? 'Select your travel start date' : 'Select your travel dates'}
+        </p>
       </div>
 
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">From Date</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            {tripData.tripType === 'package' ? 'Start Date' : 'From Date'}
+          </label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full justify-start text-left font-normal",
+                  "w-full justify-start text-left font-normal bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700",
                   !fromDate && "text-muted-foreground"
                 )}
               >
@@ -494,7 +528,7 @@ const DateStep = ({ tripData, setTripData, onNext }: any) => {
                 {fromDate ? format(fromDate, "PPP") : <span>Pick a date</span>}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
+            <PopoverContent className="w-auto p-0 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700" align="start">
               <CalendarComponent
                 mode="single"
                 selected={fromDate}
@@ -506,37 +540,39 @@ const DateStep = ({ tripData, setTripData, onNext }: any) => {
           </Popover>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">To Date</label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full justify-start text-left font-normal",
-                  !toDate && "text-muted-foreground"
-                )}
-              >
-                <Calendar className="mr-2 h-4 w-4" />
-                {toDate ? format(toDate, "PPP") : <span>Pick a date</span>}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <CalendarComponent
-                mode="single"
-                selected={toDate}
-                onSelect={setToDate}
-                initialFocus
-                className={cn("p-3 pointer-events-auto")}
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
+        {tripData.tripType !== 'package' && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">To Date</label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full justify-start text-left font-normal bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700",
+                    !toDate && "text-muted-foreground"
+                  )}
+                >
+                  <Calendar className="mr-2 h-4 w-4" />
+                  {toDate ? format(toDate, "PPP") : <span>Pick a date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700" align="start">
+                <CalendarComponent
+                  mode="single"
+                  selected={toDate}
+                  onSelect={setToDate}
+                  initialFocus
+                  className={cn("p-3 pointer-events-auto")}
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+        )}
       </div>
 
       <Button
         onClick={handleNext}
-        disabled={!fromDate || !toDate}
+        disabled={!fromDate || (tripData.tripType !== 'package' && !toDate)}
         className="w-full h-12 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl disabled:opacity-50"
       >
         Continue
@@ -566,8 +602,8 @@ const TransportStep = ({ tripData, setTripData, onNext }: any) => {
   return (
     <div className="p-4 space-y-6">
       <div className="text-center">
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">How you want to go?</h2>
-        <p className="text-gray-600">Choose your mode of transport</p>
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">How you want to go?</h2>
+        <p className="text-gray-600 dark:text-gray-400">Choose your mode of transport</p>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -673,8 +709,8 @@ const HotelBookingStep = ({ tripData, setTripData, onNext }: any) => {
   return (
     <div className="p-4 space-y-6">
       <div className="text-center">
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">Choose Your Hotel</h2>
-        <p className="text-gray-600">Select accommodation for your stay in {tripData.destination}</p>
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">Choose Your Hotel</h2>
+        <p className="text-gray-600 dark:text-gray-400">Select accommodation for your stay in {tripData.destination}</p>
       </div>
 
       <div className="space-y-4">
@@ -776,8 +812,8 @@ const TripSpotSelectionStep = ({ tripData, setTripData, onNext }: any) => {
   return (
     <div className="p-4 space-y-6">
       <div className="text-center">
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">Trip Spot Selection</h2>
-        <p className="text-gray-600">Choose spots to visit in {tripData.destination}</p>
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">Trip Spot Selection</h2>
+        <p className="text-gray-600 dark:text-gray-400">Choose spots to visit in {tripData.destination}</p>
       </div>
 
       {/* Watch Cart Summary */}
@@ -862,8 +898,8 @@ const SummaryStep = ({ tripData, onNext }: any) => {
   return (
     <div className="p-4 space-y-6">
       <div className="text-center">
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">Trip Summary</h2>
-        <p className="text-gray-600">Review your trip details</p>
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">Trip Summary</h2>
+        <p className="text-gray-600 dark:text-gray-400">Review your trip details</p>
       </div>
 
       <div className="bg-white rounded-xl p-6 space-y-4">
@@ -933,8 +969,8 @@ const TripConfirmationStep = ({ tripData, onNext }: any) => {
     <div className="p-4 space-y-6 text-center">
       <div className="text-6xl mb-4">🎉</div>
       <div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Trip Confirmed!</h2>
-        <p className="text-gray-600">Your amazing journey to {tripData.destination} is all set!</p>
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">Trip Confirmed!</h2>
+        <p className="text-gray-600 dark:text-gray-400">Your amazing journey to {tripData.destination} is all set!</p>
       </div>
 
       <div className="bg-green-50 rounded-xl p-6 space-y-3">
