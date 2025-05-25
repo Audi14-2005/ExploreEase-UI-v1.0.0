@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, MapPin, Clock, Users, DollarSign, Filter, Search, ArrowLeft, Plane, Hotel, Car } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -30,100 +29,60 @@ const TripHistoryScreen = ({ onBack }: TripHistoryScreenProps) => {
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'upcoming' | 'ongoing' | 'completed'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
+  const [trips, setTrips] = useState<Trip[]>([]);
 
-  // Sample trip data - in a real app, this would come from your trip planning context/database
-  const trips: Trip[] = [
-    {
-      id: '1',
-      name: 'Goa Beach Adventure',
-      destination: 'Goa, India',
-      startDate: '2024-06-15',
-      endDate: '2024-06-22',
-      status: 'completed',
-      budget: 45000,
-      spent: 42000,
-      travelers: 2,
-      duration: '7 days',
-      image: '🏖️',
-      activities: ['Beach hopping', 'Water sports', 'Nightlife', 'Local cuisine'],
-      accommodation: 'Beach Resort',
-      transportation: 'Flight + Taxi',
-      createdDate: '2024-05-01',
-      description: 'A relaxing beach vacation with water sports and local culture exploration.'
-    },
-    {
-      id: '2',
-      name: 'Kerala Backwaters',
-      destination: 'Kerala, India',
-      startDate: '2024-07-10',
-      endDate: '2024-07-17',
-      status: 'ongoing',
-      budget: 38000,
-      spent: 28000,
-      travelers: 4,
-      duration: '8 days',
-      image: '🌴',
-      activities: ['Houseboat cruise', 'Spice plantation', 'Ayurveda spa', 'Wildlife safari'],
-      accommodation: 'Houseboat + Resort',
-      transportation: 'Flight + Car rental',
-      createdDate: '2024-06-15',
-      description: 'Exploring the serene backwaters and rich culture of Kerala.'
-    },
-    {
-      id: '3',
-      name: 'Rajasthan Royal Tour',
-      destination: 'Rajasthan, India',
-      startDate: '2024-08-05',
-      endDate: '2024-08-12',
-      status: 'upcoming',
-      budget: 50000,
-      spent: 0,
-      travelers: 3,
-      duration: '7 days',
-      image: '🏰',
-      activities: ['Palace tours', 'Desert safari', 'Cultural shows', 'Local markets'],
-      accommodation: 'Heritage Hotels',
-      transportation: 'Flight + Private car',
-      createdDate: '2024-07-01',
-      description: 'A royal journey through the majestic palaces and deserts of Rajasthan.'
-    },
-    {
-      id: '4',
-      name: 'Himachal Mountains',
-      destination: 'Himachal Pradesh, India',
-      startDate: '2024-09-20',
-      endDate: '2024-09-27',
-      status: 'upcoming',
-      budget: 35000,
-      spent: 0,
-      travelers: 2,
-      duration: '7 days',
-      image: '🏔️',
-      activities: ['Trekking', 'Mountain biking', 'Paragliding', 'Local temples'],
-      accommodation: 'Mountain lodges',
-      transportation: 'Bus + Local transport',
-      createdDate: '2024-07-20',
-      description: 'An adventurous mountain expedition with breathtaking views and outdoor activities.'
-    },
-    {
-      id: '5',
-      name: 'Mumbai City Explorer',
-      destination: 'Mumbai, India',
-      startDate: '2024-05-01',
-      endDate: '2024-05-05',
-      status: 'completed',
-      budget: 25000,
-      spent: 23500,
-      travelers: 1,
-      duration: '4 days',
-      image: '🏙️',
-      activities: ['City tours', 'Bollywood studios', 'Street food', 'Shopping'],
-      accommodation: 'Business Hotel',
-      transportation: 'Flight + Metro/Taxi',
-      createdDate: '2024-04-10',
-      description: 'Exploring the bustling city life and entertainment capital of India.'
-    }
-  ];
+  // Load trips from localStorage on component mount
+  useEffect(() => {
+    const savedTrips = JSON.parse(localStorage.getItem('tripHistory') || '[]');
+    
+    // Sample trips - in a real app, these would come from your database
+    const sampleTrips: Trip[] = [
+      {
+        id: '1',
+        name: 'Goa Beach Adventure',
+        destination: 'Goa, India',
+        startDate: '2024-06-15',
+        endDate: '2024-06-22',
+        status: 'completed',
+        budget: 45000,
+        spent: 42000,
+        travelers: 2,
+        duration: '7 days',
+        image: '🏖️',
+        activities: ['Beach hopping', 'Water sports', 'Nightlife', 'Local cuisine'],
+        accommodation: 'Beach Resort',
+        transportation: 'Flight + Taxi',
+        createdDate: '2024-05-01',
+        description: 'A relaxing beach vacation with water sports and local culture exploration.'
+      },
+      {
+        id: '2',
+        name: 'Kerala Backwaters',
+        destination: 'Kerala, India',
+        startDate: '2024-07-10',
+        endDate: '2024-07-17',
+        status: 'ongoing',
+        budget: 38000,
+        spent: 28000,
+        travelers: 4,
+        duration: '8 days',
+        image: '🌴',
+        activities: ['Houseboat cruise', 'Spice plantation', 'Ayurveda spa', 'Wildlife safari'],
+        accommodation: 'Houseboat + Resort',
+        transportation: 'Flight + Car rental',
+        createdDate: '2024-06-15',
+        description: 'Exploring the serene backwaters and rich culture of Kerala.'
+      }
+    ];
+
+    // Combine sample trips with saved trips, avoiding duplicates
+    const allTrips = [...sampleTrips, ...savedTrips];
+    const uniqueTrips = allTrips.filter((trip, index, self) => 
+      index === self.findIndex(t => t.id === trip.id)
+    );
+    
+    setTrips(uniqueTrips);
+  }, []);
 
   const filteredTrips = trips.filter(trip => {
     const matchesFilter = selectedFilter === 'all' || trip.status === selectedFilter;

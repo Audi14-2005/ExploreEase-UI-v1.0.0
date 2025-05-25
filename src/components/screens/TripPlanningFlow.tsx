@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Calendar, MapPin, Plane, Car, Train, Bike, Star, Plus, Sparkles, ShoppingCart, Hotel, Bus } from 'lucide-react';
+import { ArrowLeft, Calendar, MapPin, Plane, Car, Train, Bike, Star, Plus, Sparkles, ShoppingCart, Hotel, Bus, Taxi } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+import RoutesScreen from './RoutesScreen';
 
 interface TripData {
   tripType: 'package' | 'own' | '';
   destination: string;
   fromDate: Date | undefined;
   toDate: Date | undefined;
-  transport: 'bike' | 'car' | 'plane' | 'train' | 'bus' | '';
+  transport: 'bike' | 'car' | 'plane' | 'train' | 'bus' | 'cab' | '';
   selectedSpots: any[];
   watchCart: any[];
   selectedHotel?: any;
   selectedPackage?: any;
+  selectedRoute?: string;
 }
 
 interface TripPlanningFlowProps {
@@ -44,10 +46,8 @@ const TripPlanningFlow = ({ onBack }: TripPlanningFlowProps) => {
       // For package trips, skip certain steps
       if (tripData.tripType === 'package') {
         if (currentStep === 2) {
-          // After destination selection for package, go to date step
           setCurrentStep(3);
         } else if (currentStep === 3) {
-          // After date selection for package, go to summary
           setCurrentStep(7);
         } else {
           setCurrentStep(currentStep + 1);
@@ -65,13 +65,10 @@ const TripPlanningFlow = ({ onBack }: TripPlanningFlowProps) => {
     }
     
     if (currentStep > 1) {
-      // Handle back navigation for package trips
       if (tripData.tripType === 'package') {
         if (currentStep === 7) {
-          // From summary back to date for package trips
           setCurrentStep(3);
         } else if (currentStep === 3) {
-          // From date back to destination for package trips
           setCurrentStep(2);
         } else {
           setCurrentStep(currentStep - 1);
@@ -85,8 +82,8 @@ const TripPlanningFlow = ({ onBack }: TripPlanningFlowProps) => {
   };
 
   const handleTransportNext = () => {
-    // If car or bike is selected, show routes page
-    if (tripData.transport === 'car' || tripData.transport === 'bike') {
+    // If car, bike, or cab is selected for "Plan Your Own Trip", show routes page
+    if (tripData.tripType === 'own' && (tripData.transport === 'car' || tripData.transport === 'bike' || tripData.transport === 'cab')) {
       setShowRoutesPage(true);
     } else {
       handleNext();
@@ -98,7 +95,7 @@ const TripPlanningFlow = ({ onBack }: TripPlanningFlowProps) => {
     handleNext();
   };
 
-  // Show routes page for car/bike transport
+  // Show routes page for car/bike/cab transport in "Plan Your Own Trip"
   if (showRoutesPage) {
     return (
       <div className="h-full bg-gray-50 dark:bg-gray-900 flex flex-col">
@@ -118,10 +115,12 @@ const TripPlanningFlow = ({ onBack }: TripPlanningFlowProps) => {
 
         {/* Routes Content */}
         <div className="flex-1 overflow-y-auto">
-          <RoutesSelectionPage 
+          <RoutesScreen 
             destination={tripData.destination}
             transport={tripData.transport}
             onNext={handleRoutesNext}
+            currentStep={4}
+            totalScreens={totalSteps}
           />
         </div>
       </div>
@@ -501,22 +500,13 @@ const DestinationStep = ({ tripData, setTripData, onNext }: any) => {
                 />
                 <div className="flex-1 space-y-2">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <h3 className="font-semibold text-gray-800">{destination.name}</h3>
-                      {destination.isAIRecommended && (
-                        <div className="flex items-center space-x-1 bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs">
-                          <Sparkles size={12} />
-                          <span>AI Pick</span>
-                        </div>
-                      )}
-                    </div>
-                    <div className="text-right">
-                      <p className="font-semibold text-gray-800">{destination.price}</p>
-                      <div className="flex items-center space-x-1">
-                        <Star size={14} className="text-yellow-500 fill-current" />
-                        <span className="text-sm text-gray-600">{destination.rating}</span>
+                    <h3 className="font-semibold text-gray-800">{destination.name}</h3>
+                    {destination.isAIRecommended && (
+                      <div className="flex items-center space-x-1 bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs">
+                        <Sparkles size={12} />
+                        <span>AI Pick</span>
                       </div>
-                    </div>
+                    )}
                   </div>
                   <p className="text-sm text-gray-600 line-clamp-2">{destination.description}</p>
                 </div>
@@ -631,13 +621,14 @@ const DateStep = ({ tripData, setTripData, onNext }: any) => {
   );
 };
 
-// Step 4: Transport Selection - Updated with Bus option
+// Step 4: Transport Selection - Updated with Cab option
 const TransportStep = ({ tripData, setTripData, onNext }: any) => {
   const [selectedTransport, setSelectedTransport] = useState(tripData.transport);
 
   const transports = [
     { id: 'bike', label: 'Bike', icon: Bike, color: 'bg-green-100 text-green-600' },
     { id: 'car', label: 'Car', icon: Car, color: 'bg-blue-100 text-blue-600' },
+    { id: 'cab', label: 'Cab', icon: Taxi, color: 'bg-yellow-100 text-yellow-600' },
     { id: 'bus', label: 'Bus', icon: Bus, color: 'bg-orange-100 text-orange-600' },
     { id: 'plane', label: 'Aeroplane', icon: Plane, color: 'bg-purple-100 text-purple-600' },
     { id: 'train', label: 'Train', icon: Train, color: 'bg-red-100 text-red-600' }
@@ -1030,8 +1021,34 @@ const SummaryStep = ({ tripData, onNext }: any) => {
 // Step 7: Trip Confirmation
 const TripConfirmationStep = ({ tripData, onNext }: any) => {
   const handleConfirmTrip = () => {
-    // Here you would typically save the trip data and navigate to a success screen
-    console.log('Trip confirmed:', tripData);
+    // Save trip to localStorage for history tracking
+    const newTrip = {
+      id: Date.now().toString(),
+      name: `${tripData.destination} ${tripData.tripType === 'package' ? 'Package' : 'Adventure'}`,
+      destination: tripData.destination,
+      startDate: tripData.fromDate ? format(tripData.fromDate, 'yyyy-MM-dd') : '',
+      endDate: tripData.toDate ? format(tripData.toDate, 'yyyy-MM-dd') : '',
+      status: 'upcoming' as const,
+      budget: tripData.tripType === 'package' ? 45000 : (tripData.watchCart?.reduce((sum: number, item: any) => sum + item.expense, 0) || 25000),
+      spent: 0,
+      travelers: 1,
+      duration: tripData.tripType === 'package' ? '5 days' : '4 days',
+      image: tripData.destination === 'Goa' ? '🏖️' : 
+             tripData.destination === 'Kerala' ? '🌴' : 
+             tripData.destination === 'Rajasthan' ? '🏰' : '🏔️',
+      activities: tripData.watchCart?.map((item: any) => item.name) || ['Sightseeing', 'Local cuisine', 'Shopping'],
+      accommodation: tripData.selectedHotel?.name || 'Standard Hotel',
+      transportation: tripData.transport.charAt(0).toUpperCase() + tripData.transport.slice(1),
+      createdDate: format(new Date(), 'yyyy-MM-dd'),
+      description: `A ${tripData.tripType === 'package' ? 'curated package' : 'custom planned'} trip to ${tripData.destination}.`
+    };
+
+    // Get existing trips from localStorage
+    const existingTrips = JSON.parse(localStorage.getItem('tripHistory') || '[]');
+    existingTrips.push(newTrip);
+    localStorage.setItem('tripHistory', JSON.stringify(existingTrips));
+
+    console.log('Trip confirmed and saved:', newTrip);
     onNext();
   };
 
@@ -1047,9 +1064,9 @@ const TripConfirmationStep = ({ tripData, onNext }: any) => {
         <h3 className="font-semibold text-green-800">What's Next?</h3>
         <div className="space-y-2 text-sm text-green-700">
           <p>✓ Trip details saved to your profile</p>
-          <p>✓ Booking confirmations will be sent via email</p>
           <p>✓ Access your itinerary anytime in the Routes section</p>
           <p>✓ Track expenses during your trip</p>
+          <p>✓ View trip history anytime</p>
         </div>
       </div>
 
@@ -1058,7 +1075,7 @@ const TripConfirmationStep = ({ tripData, onNext }: any) => {
           onClick={handleConfirmTrip}
           className="w-full h-12 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl"
         >
-          Start Planning Details
+          Save Trip & Continue
         </Button>
         <Button
           variant="outline"
@@ -1072,107 +1089,6 @@ const TripConfirmationStep = ({ tripData, onNext }: any) => {
       <div className="text-xs text-gray-500 mt-6">
         <p>Need help? Contact our support team anytime.</p>
       </div>
-    </div>
-  );
-};
-
-// New Routes Selection Page Component
-const RoutesSelectionPage = ({ destination, transport, onNext }: { destination: string, transport: string, onNext: () => void }) => {
-  const [selectedRoute, setSelectedRoute] = useState<'time' | 'scenic' | 'fuel' | null>(null);
-
-  const routes = [
-    {
-      id: 'time',
-      name: 'Time Efficient',
-      description: 'Fastest way to destination',
-      duration: '4h 30m',
-      distance: '320 km',
-      color: 'blue',
-      icon: '⚡'
-    },
-    {
-      id: 'scenic',
-      name: 'Scenic Route',
-      description: 'Most enjoyable experience',
-      duration: '6h 15m', 
-      distance: '420 km',
-      color: 'green',
-      icon: '🌄'
-    },
-    {
-      id: 'fuel',
-      name: 'Fuel Efficient',
-      description: 'Most economical option',
-      duration: '5h 45m',
-      distance: '280 km',
-      color: 'red',
-      icon: '⛽'
-    }
-  ];
-
-  const handleNext = () => {
-    if (selectedRoute) {
-      onNext();
-    }
-  };
-
-  return (
-    <div className="p-4 space-y-6">
-      <div className="text-center">
-        <div className="text-4xl mb-4">
-          {transport === 'car' ? '🚗' : '🏍️'}
-        </div>
-        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
-          Routes to {destination}
-        </h2>
-        <p className="text-gray-600 dark:text-gray-400">
-          Choose the best route for your {transport} journey
-        </p>
-      </div>
-
-      {/* Mock Map */}
-      <div className="bg-gray-100 rounded-xl h-48 flex items-center justify-center">
-        <div className="text-center">
-          <MapPin size={32} className="text-gray-400 mx-auto mb-2" />
-          <p className="text-gray-500">Interactive Route Map</p>
-          <p className="text-sm text-gray-400">Current location → {destination}</p>
-        </div>
-      </div>
-
-      {/* Route Options */}
-      <div className="space-y-3">
-        {routes.map((route) => (
-          <button
-            key={route.id}
-            onClick={() => setSelectedRoute(route.id as 'time' | 'scenic' | 'fuel')}
-            className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
-              selectedRoute === route.id
-                ? `border-${route.color}-500 bg-${route.color}-50`
-                : 'border-gray-200 bg-white hover:border-gray-300'
-            }`}
-          >
-            <div className="flex items-center space-x-4">
-              <div className="text-2xl">{route.icon}</div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between mb-1">
-                  <h3 className="font-semibold text-gray-800">{route.name}</h3>
-                  <span className="text-sm font-medium text-gray-600">{route.duration}</span>
-                </div>
-                <p className="text-sm text-gray-600 mb-1">{route.description}</p>
-                <p className="text-xs text-gray-500">{route.distance}</p>
-              </div>
-            </div>
-          </button>
-        ))}
-      </div>
-
-      <Button
-        onClick={handleNext}
-        disabled={!selectedRoute}
-        className="w-full h-12 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl disabled:opacity-50"
-      >
-        Continue with Selected Route
-      </Button>
     </div>
   );
 };
