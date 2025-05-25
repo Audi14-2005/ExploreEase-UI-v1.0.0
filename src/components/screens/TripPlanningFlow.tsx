@@ -403,11 +403,12 @@ const DestinationStep = ({ tripData, setTripData, onNext }: any) => {
             onClick={() => setSelectedDestination(destination.id || destination.name)}
             className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
               selectedDestination === (destination.id || destination.name)
-                ? 'border-blue-500 bg-blue-50'
-                : 'border-gray-200 bg-white hover:border-gray-300'
+                ? 'border-blue-500 bg-blue-50 dark:bg-blue-800 dark:border-blue-500'
+                : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-700'
             }`}
           >
             {tripData.tripType === 'package' ? (
+              // Package Trip Display - Already Modified
               <div className="space-y-4">
                 <img
                   src={destination.image}
@@ -417,9 +418,9 @@ const DestinationStep = ({ tripData, setTripData, onNext }: any) => {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <h3 className="text-xl font-bold text-gray-800">{destination.name}</h3>
+                      <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">{destination.name}</h3>
                       {destination.isAIRecommended && (
-                        <div className="flex items-center space-x-1 bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs">
+                        <div className="flex items-center space-x-1 bg-purple-100 dark:bg-purple-800 text-purple-700 dark:text-purple-300 px-2 py-1 rounded-full text-xs">
                           <Sparkles size={12} />
                           <span>AI Pick</span>
                         </div>
@@ -427,41 +428,41 @@ const DestinationStep = ({ tripData, setTripData, onNext }: any) => {
                     </div>
                     <div className="text-right">
                       <div className="flex items-center space-x-2">
-                        <span className="text-lg font-bold text-gray-800">{destination.price}</span>
-                        <span className="text-sm text-gray-500 line-through">{destination.originalPrice}</span>
+                        <span className="text-lg font-bold text-gray-800 dark:text-gray-100">{destination.price}</span>
+                        <span className="text-sm text-gray-500 dark:text-gray-400 line-through">{destination.originalPrice}</span>
                       </div>
                       <div className="flex items-center space-x-1">
                         <Star size={14} className="text-yellow-500 fill-current" />
-                        <span className="text-sm text-gray-600">{destination.rating} ({destination.reviews} reviews)</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-300">{destination.rating} ({destination.reviews} reviews)</span>
                       </div>
                     </div>
                   </div>
                   
-                  <p className="text-gray-600">{destination.description}</p>
+                  <p className="text-gray-600 dark:text-gray-300">{destination.description}</p>
                   
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <span className="font-semibold text-gray-700">Duration:</span>
-                      <p className="text-gray-600">{destination.duration}</p>
+                      <span className="font-semibold text-gray-700 dark:text-gray-200">Duration:</span>
+                      <p className="text-gray-600 dark:text-gray-300">{destination.duration}</p>
                     </div>
                     <div>
-                      <span className="font-semibold text-gray-700">Transport:</span>
-                      <p className="text-gray-600">{destination.transport}</p>
+                      <span className="font-semibold text-gray-700 dark:text-gray-200">Transport:</span>
+                      <p className="text-gray-600 dark:text-gray-300">{destination.transport}</p>
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2">
                       <Hotel size={16} className="text-blue-600" />
-                      <span className="font-semibold text-gray-700">{destination.hotel.name}</span>
+                      <span className="font-semibold text-gray-700 dark:text-gray-200">{destination.hotel.name}</span>
                       <div className="flex items-center space-x-1">
                         <Star size={12} className="text-yellow-500 fill-current" />
-                        <span className="text-xs text-gray-600">{destination.hotel.rating}</span>
+                        <span className="text-xs text-gray-600 dark:text-gray-300">{destination.hotel.rating}</span>
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-1">
                       {destination.hotel.amenities.map((amenity, index) => (
-                        <span key={index} className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
+                        <span key={index} className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-2 py-1 rounded-full text-xs">
                           {amenity}
                         </span>
                       ))}
@@ -469,10 +470,10 @@ const DestinationStep = ({ tripData, setTripData, onNext }: any) => {
                   </div>
 
                   <div className="space-y-2">
-                    <span className="font-semibold text-gray-700">Spots to Visit:</span>
+                    <span className="font-semibold text-gray-700 dark:text-gray-200">Spots to Visit:</span>
                     <div className="flex flex-wrap gap-1">
                       {destination.spots.map((spot, index) => (
-                        <span key={index} className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs">
+                        <span key={index} className="bg-blue-100 dark:bg-blue-800 text-blue-700 dark:text-blue-300 px-2 py-1 rounded-full text-xs">
                           {spot}
                         </span>
                       ))}
@@ -480,8 +481,8 @@ const DestinationStep = ({ tripData, setTripData, onNext }: any) => {
                   </div>
 
                   <div className="space-y-2">
-                    <span className="font-semibold text-gray-700">Package Highlights:</span>
-                    <ul className="text-sm text-gray-600 space-y-1">
+                    <span className="font-semibold text-gray-700 dark:text-gray-200">Package Highlights:</span>
+                    <ul className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
                       {destination.highlights.map((highlight, index) => (
                         <li key={index} className="flex items-center space-x-2">
                           <span className="text-green-500">✓</span>
@@ -501,15 +502,15 @@ const DestinationStep = ({ tripData, setTripData, onNext }: any) => {
                 />
                 <div className="flex-1 space-y-2">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-semibold text-gray-800">{destination.name}</h3>
+                    <h3 className="font-semibold text-gray-800 dark:text-gray-100">{destination.name}</h3>
                     {destination.isAIRecommended && (
-                      <div className="flex items-center space-x-1 bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs">
+                      <div className="flex items-center space-x-1 bg-purple-100 dark:bg-purple-800 text-purple-700 dark:text-purple-300 px-2 py-1 rounded-full text-xs">
                         <Sparkles size={12} />
                         <span>AI Pick</span>
                       </div>
                     )}
                   </div>
-                  <p className="text-sm text-gray-600 line-clamp-2">{destination.description}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">{destination.description}</p>
                 </div>
               </div>
             )}
