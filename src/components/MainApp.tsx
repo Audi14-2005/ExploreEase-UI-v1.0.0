@@ -6,12 +6,14 @@ import RoutesMainScreen from './screens/RoutesMainScreen';
 import ExpensesScreen from './screens/ExpensesScreen';
 import ChatScreen from './screens/ChatScreen';
 import SettingsScreen from './screens/SettingsScreen';
+import ProfileScreen from './screens/ProfileScreen';
 import UserStatsHeader from './UserStatsHeader';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { PreferencesProvider } from '@/contexts/PreferencesContext';
 
 const MainApp = () => {
   const [activeTab, setActiveTab] = useState('explore');
+  const [showProfile, setShowProfile] = useState(false);
 
   const tabs = [
     { id: 'explore', label: 'Explore', icon: Home, component: ExploreScreen },
@@ -21,6 +23,27 @@ const MainApp = () => {
     { id: 'settings', label: 'Settings', icon: Settings, component: SettingsScreen }
   ];
 
+  const handleProfileClick = () => {
+    setShowProfile(true);
+  };
+
+  const handleBackFromProfile = () => {
+    setShowProfile(false);
+  };
+
+  // Show profile screen if profile is active
+  if (showProfile) {
+    return (
+      <AuthProvider>
+        <PreferencesProvider>
+          <div className="h-screen w-screen bg-background text-foreground flex flex-col">
+            <ProfileScreen onBack={handleBackFromProfile} />
+          </div>
+        </PreferencesProvider>
+      </AuthProvider>
+    );
+  }
+
   const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component || ExploreScreen;
 
   return (
@@ -28,7 +51,7 @@ const MainApp = () => {
       <PreferencesProvider>
         <div className="h-screen w-screen bg-background text-foreground flex flex-col">
           {/* User Stats Header with Profile Picture */}
-          <UserStatsHeader onProfileClick={() => setActiveTab('settings')} />
+          <UserStatsHeader onProfileClick={handleProfileClick} />
           
           {/* Main Content */}
           <div className="flex-1 overflow-hidden bg-background">

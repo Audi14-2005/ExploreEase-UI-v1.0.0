@@ -1,9 +1,14 @@
+
 import React from 'react';
-import { Users, Trophy, Star, MapPin, Plane, LogOut } from 'lucide-react';
+import { ArrowLeft, Users, Trophy, Star, MapPin, Plane, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 
-const ProfileScreen = () => {
+interface ProfileScreenProps {
+  onBack: () => void;
+}
+
+const ProfileScreen = ({ onBack }: ProfileScreenProps) => {
   const { user, logout } = useAuth();
 
   // Get the first letter of username for avatar, fallback to 'A'
@@ -90,8 +95,18 @@ const ProfileScreen = () => {
   };
 
   return (
-    <div className="h-full overflow-y-auto bg-gray-50">
-      <div className="p-4 space-y-6">
+    <div className="h-full bg-gray-50">
+      {/* Header with back button */}
+      <div className="sticky top-0 bg-white border-b border-gray-200 p-4">
+        <div className="flex items-center space-x-3">
+          <Button variant="ghost" size="sm" onClick={onBack}>
+            <ArrowLeft size={20} />
+          </Button>
+          <h1 className="text-lg font-semibold">Profile</h1>
+        </div>
+      </div>
+
+      <div className="p-4 space-y-6 overflow-y-auto">
         {/* Profile Header */}
         <div className="bg-white rounded-xl p-6 text-center">
           <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
