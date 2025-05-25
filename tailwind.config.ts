@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -84,11 +85,82 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'fade-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(20px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
+				'fly-plane': {
+					'0%': {
+						transform: 'translate(0, 100vh) rotate(-45deg)',
+						opacity: '0'
+					},
+					'50%': {
+						opacity: '1'
+					},
+					'100%': {
+						transform: 'translate(100vw, -100vh) rotate(-45deg)',
+						opacity: '0'
+					}
+				},
+				'ride-bike': {
+					'0%': {
+						transform: 'translateX(100vw)',
+						opacity: '0'
+					},
+					'50%': {
+						opacity: '1'
+					},
+					'100%': {
+						transform: 'translateX(-200px)',
+						opacity: '0'
+					}
+				},
+				'drive-car': {
+					'0%': {
+						transform: 'translateX(100vw) rotate(10deg)',
+						opacity: '0'
+					},
+					'50%': {
+						opacity: '1'
+					},
+					'100%': {
+						transform: 'translateX(-200px) rotate(-10deg)',
+						opacity: '0'
+					}
+				},
+				'dash': {
+					'0%': {
+						strokeDashoffset: '100'
+					},
+					'100%': {
+						strokeDashoffset: '0'
+					}
+				},
+				'draw-path': {
+					'0%': {
+						strokeDasharray: '0 1000'
+					},
+					'100%': {
+						strokeDasharray: '1000 0'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.6s ease-out forwards',
+				'fly-plane': 'fly-plane 0.8s ease-in-out',
+				'ride-bike': 'ride-bike 0.8s ease-in-out',
+				'drive-car': 'drive-car 0.8s ease-in-out',
+				'dash': 'dash 2s ease-in-out infinite',
+				'draw-path': 'draw-path 2s ease-in-out infinite'
 			}
 		}
 	},
