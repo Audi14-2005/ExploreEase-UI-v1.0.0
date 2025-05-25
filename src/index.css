@@ -117,11 +117,11 @@
   }
 
   .dark .text-gray-500 {
-    @apply text-gray-400;
+    color: rgb(156 163 175);
   }
 
   .dark .text-gray-400 {
-    @apply text-gray-500;
+    color: rgb(107 114 128);
   }
 
   .dark .border-gray-200 {
