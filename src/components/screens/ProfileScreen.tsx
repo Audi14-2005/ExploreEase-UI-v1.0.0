@@ -13,14 +13,14 @@ const ProfileScreen = ({ onBack }: ProfileScreenProps) => {
 
   // Get the first letter of username for avatar, fallback to 'A'
   const avatarLetter = user?.username ? user.username.charAt(0).toUpperCase() : 'A';
-  const displayName = user?.username || 'Monic Auditya A';
-  const displayEmail = user?.email || 'travel@enthusiast.com';
+  const displayName = user?.username || 'Priya Sharma';
+  const displayEmail = user?.email || 'travel@indianexplorer.com';
 
   const achievements = [
     {
       title: 'Explorer',
-      description: 'Visited 8 countries',
-      icon: '🌍',
+      description: 'Visited 12 Indian states',
+      icon: '🇮🇳',
       earned: true
     },
     {
@@ -30,41 +30,41 @@ const ProfileScreen = ({ onBack }: ProfileScreenProps) => {
       earned: true
     },
     {
-      title: 'Navigator',
-      description: 'Created 50 routes',
-      icon: '🧭',
+      title: 'Heritage Hunter',
+      description: 'Visited 15 UNESCO sites',
+      icon: '🏛️',
       earned: false
     },
     {
-      title: 'Globetrotter',
-      description: 'Travel 10,000km',
-      icon: '✈️',
+      title: 'Mountain Climber',
+      description: 'Trekked in Himalayas',
+      icon: '🏔️',
       earned: false
     }
   ];
 
   const friends = [
     {
-      name: 'Sarah M.',
+      name: 'Rahul K.',
       trips: 12,
-      avatar: '👩‍💼'
+      avatar: '👨‍💼'
     },
     {
-      name: 'John D.',
+      name: 'Anjali M.',
       trips: 8,
-      avatar: '👨‍💻'
+      avatar: '👩‍💻'
     },
     {
-      name: 'Emily R.',
+      name: 'Vikram S.',
       trips: 15,
-      avatar: '👩‍🎨'
+      avatar: '👨‍🎨'
     }
   ];
 
   const stats = [
     {
-      label: 'Countries',
-      value: '8',
+      label: 'States',
+      value: '12',
       icon: MapPin,
       color: 'text-green-500'
     },
@@ -76,7 +76,7 @@ const ProfileScreen = ({ onBack }: ProfileScreenProps) => {
     },
     {
       label: 'Distance',
-      value: '12.5k km',
+      value: '15k km',
       icon: Trophy,
       color: 'text-purple-500'
     },
@@ -114,7 +114,7 @@ const ProfileScreen = ({ onBack }: ProfileScreenProps) => {
           </div>
           <h2 className="text-xl font-semibold text-gray-800 mb-1">{displayName}</h2>
           <p className="text-gray-600 mb-2">{displayEmail}</p>
-          <p className="text-gray-600 mb-4">Travel Enthusiast</p>
+          <p className="text-gray-600 mb-4">Indian Travel Enthusiast</p>
           <div className="flex items-center justify-center space-x-1 mb-4">
             <Star className="text-yellow-500 fill-current" size={16} />
             <span className="font-medium text-gray-800">4.9</span>

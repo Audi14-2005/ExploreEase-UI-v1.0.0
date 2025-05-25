@@ -12,9 +12,11 @@ const ExploreScreen = () => {
   ];
 
   const destinations = [
-    { name: 'Paris, France', image: '🗼', rating: 4.8, price: '$1,200' },
-    { name: 'Tokyo, Japan', image: '🏯', rating: 4.9, price: '$1,800' },
-    { name: 'New York, USA', image: '🏙️', rating: 4.7, price: '$900' }
+    { name: 'Goa, India', image: '🏖️', rating: 4.8, price: '₹45,000' },
+    { name: 'Kerala, India', image: '🌴', rating: 4.9, price: '₹38,000' },
+    { name: 'Rajasthan, India', image: '🏰', rating: 4.7, price: '₹42,000' },
+    { name: 'Himachal Pradesh, India', image: '🏔️', rating: 4.6, price: '₹35,000' },
+    { name: 'Mumbai, India', image: '🏙️', rating: 4.5, price: '₹28,000' }
   ];
 
   return (
@@ -25,7 +27,7 @@ const ExploreScreen = () => {
           <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
           <input
             type="text"
-            placeholder="Where do you want to go?"
+            placeholder="Where do you want to go in India?"
             className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -53,7 +55,7 @@ const ExploreScreen = () => {
 
         {/* Featured Destinations */}
         <div>
-          <h3 className="text-lg font-semibold text-gray-800 mb-3">Featured Destinations</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-3">Featured Indian Destinations</h3>
           <div className="space-y-3">
             {destinations.map((destination, index) => (
               <div
@@ -81,7 +83,7 @@ const ExploreScreen = () => {
 
         {/* CTA Button */}
         <Button className="w-full h-12 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-xl">
-          Plan My Trip
+          Plan My Indian Adventure
         </Button>
       </div>
     </div>

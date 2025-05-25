@@ -50,8 +50,10 @@ const MainApp = () => {
     <AuthProvider>
       <PreferencesProvider>
         <div className="h-screen w-screen bg-background text-foreground flex flex-col">
-          {/* User Stats Header with Profile Picture */}
-          <UserStatsHeader onProfileClick={handleProfileClick} />
+          {/* User Stats Header only on explore page */}
+          {activeTab === 'explore' && (
+            <UserStatsHeader onProfileClick={handleProfileClick} />
+          )}
           
           {/* Main Content */}
           <div className="flex-1 overflow-hidden bg-background">
