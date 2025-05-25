@@ -1,28 +1,24 @@
-
 import React from 'react';
 import { Trophy, MapPin, Plane, Navigation } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-
 interface UserStatsHeaderProps {
   onProfileClick: () => void;
 }
+const UserStatsHeader = ({
+  onProfileClick
+}: UserStatsHeaderProps) => {
+  const {
+    user
+  } = useAuth();
 
-const UserStatsHeader = ({ onProfileClick }: UserStatsHeaderProps) => {
-  const { user } = useAuth();
-  
   // Get the first letter of username for avatar, fallback to 'A'
   const avatarLetter = user?.username ? user.username.charAt(0).toUpperCase() : 'A';
   const displayName = user?.username || 'AUDI';
-
-  return (
-    <div className="bg-white px-4 py-3 border-b border-gray-200">
-      <div className="flex items-center justify-between">
+  return <div className="bg-white px-4 py-3 border-b border-gray-200">
+      <div className="flex items-center justify-between mx-0">
         {/* Profile Picture and User Greeting */}
         <div className="flex items-center space-x-3">
-          <button 
-            onClick={onProfileClick} 
-            className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white hover:shadow-lg transition-shadow mx-0 my-0 px-[14px] text-xs font-extrabold"
-          >
+          <button onClick={onProfileClick} className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white hover:shadow-lg transition-shadow mx-0 my-0 text-xs font-extrabold px-0">
             {avatarLetter}
           </button>
           <div>
@@ -51,8 +47,6 @@ const UserStatsHeader = ({ onProfileClick }: UserStatsHeaderProps) => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default UserStatsHeader;
