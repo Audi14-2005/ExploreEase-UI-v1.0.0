@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -98,40 +97,31 @@ export default {
 				},
 				'fly-plane': {
 					'0%': {
-						transform: 'translate(0, 100vh) rotate(-45deg)',
-						opacity: '0'
-					},
-					'50%': {
+						transform: 'translate(0, calc(100vh - 80px)) rotate(45deg)',
 						opacity: '1'
 					},
 					'100%': {
-						transform: 'translate(100vw, -100vh) rotate(-45deg)',
+						transform: 'translate(calc(100vw - 80px), -80px) rotate(45deg)',
 						opacity: '0'
 					}
 				},
 				'ride-bike': {
 					'0%': {
-						transform: 'translateX(100vw)',
-						opacity: '0'
-					},
-					'50%': {
+						transform: 'translateX(calc(100vw + 80px))',
 						opacity: '1'
 					},
 					'100%': {
-						transform: 'translateX(-200px)',
+						transform: 'translateX(-80px)',
 						opacity: '0'
 					}
 				},
 				'drive-car': {
 					'0%': {
-						transform: 'translateX(100vw) rotate(10deg)',
-						opacity: '0'
-					},
-					'50%': {
+						transform: 'translateX(calc(100vw + 80px))',
 						opacity: '1'
 					},
 					'100%': {
-						transform: 'translateX(-200px) rotate(-10deg)',
+						transform: 'translateX(-80px)',
 						opacity: '0'
 					}
 				},
@@ -156,9 +146,9 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.6s ease-out forwards',
-				'fly-plane': 'fly-plane 0.8s ease-in-out',
-				'ride-bike': 'ride-bike 0.8s ease-in-out',
-				'drive-car': 'drive-car 0.8s ease-in-out',
+				'fly-plane': 'fly-plane 1s ease-out',
+				'ride-bike': 'ride-bike 1s ease-out',
+				'drive-car': 'drive-car 1s ease-out',
 				'dash': 'dash 2s ease-in-out infinite',
 				'draw-path': 'draw-path 2s ease-in-out infinite'
 			}
