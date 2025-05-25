@@ -26,17 +26,17 @@ const MainApp = () => {
   return (
     <AuthProvider>
       <PreferencesProvider>
-        <div className="h-screen w-screen bg-gray-50 flex flex-col">
+        <div className="h-screen w-screen bg-background text-foreground flex flex-col">
           {/* User Stats Header with Profile Picture */}
           <UserStatsHeader onProfileClick={() => setActiveTab('settings')} />
           
           {/* Main Content */}
-          <div className="flex-1 overflow-hidden">
+          <div className="flex-1 overflow-hidden bg-background">
             <ActiveComponent />
           </div>
           
           {/* Bottom Navigation */}
-          <div className="bg-white border-t border-gray-200 px-4 py-2">
+          <div className="bg-card border-t border-border px-4 py-2">
             <div className="flex justify-around items-center">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
@@ -46,8 +46,8 @@ const MainApp = () => {
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200 ${
                       activeTab === tab.id
-                        ? 'text-blue-600 bg-blue-50'
-                        : 'text-gray-500 hover:text-gray-700'
+                        ? 'text-primary bg-primary/10'
+                        : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     <Icon size={24} />
