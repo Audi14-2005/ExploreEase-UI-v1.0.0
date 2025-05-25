@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -96,6 +95,24 @@ export default {
 						transform: 'translateY(0)'
 					}
 				},
+				'fly-plane-centered': {
+					'0%': {
+						transform: 'translate(-50px, 100px) rotate(45deg) scale(0.5)',
+						opacity: '0'
+					},
+					'10%': {
+						opacity: '1',
+						transform: 'translate(-30px, 80px) rotate(45deg) scale(0.8)'
+					},
+					'90%': {
+						opacity: '1',
+						transform: 'translate(250px, -100px) rotate(45deg) scale(1.2)'
+					},
+					'100%': {
+						transform: 'translate(300px, -150px) rotate(45deg) scale(0.8)',
+						opacity: '0'
+					}
+				},
 				'fly-plane-clear': {
 					'0%': {
 						transform: 'translate(-100px, 200px) rotate(45deg) scale(0.5)',
@@ -171,6 +188,7 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.6s ease-out forwards',
+				'fly-plane-centered': 'fly-plane-centered 1.5s ease-out',
 				'fly-plane-clear': 'fly-plane-clear 1.5s ease-out',
 				'ride-bike-clear': 'ride-bike-clear 1.5s ease-out',
 				'drive-car-clear': 'drive-car-clear 1.5s ease-out',

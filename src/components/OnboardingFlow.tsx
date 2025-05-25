@@ -37,7 +37,7 @@ const OnboardingFlow = () => {
   const currentAnimation = screens[currentScreen].animation;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 relative overflow-hidden">
+    <div className="h-screen w-screen bg-gradient-to-br from-blue-50 to-purple-100 relative overflow-hidden fixed inset-0">
       {/* Skip Button */}
       {currentScreen < screens.length - 1 && (
         <button
@@ -62,11 +62,11 @@ const OnboardingFlow = () => {
         </div>
       </div>
 
-      {/* Large Travel Animations - Much More Visible */}
+      {/* Large Travel Animations - Properly Centered */}
       {isTransitioning && (
         <div className="absolute inset-0 z-40 pointer-events-none">
           {currentAnimation === 'plane' && (
-            <div className="absolute bottom-20 left-20 text-8xl animate-fly-plane-clear drop-shadow-2xl">
+            <div className="absolute bottom-1/2 left-1/4 text-8xl animate-fly-plane-centered drop-shadow-2xl">
               ✈️
             </div>
           )}
@@ -84,7 +84,7 @@ const OnboardingFlow = () => {
       )}
 
       {/* Screen Content with Enhanced Transition */}
-      <div className={`transition-all duration-1000 ${isTransitioning ? 'opacity-20 scale-90 blur-sm' : 'opacity-100 scale-100 blur-0'}`}>
+      <div className={`h-full w-full transition-all duration-1000 ${isTransitioning ? 'opacity-20 scale-90 blur-sm' : 'opacity-100 scale-100 blur-0'}`}>
         <CurrentScreenComponent onNext={handleNext} currentScreen={currentScreen} totalScreens={screens.length} />
       </div>
     </div>
