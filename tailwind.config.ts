@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -95,33 +96,57 @@ export default {
 						transform: 'translateY(0)'
 					}
 				},
-				'fly-plane': {
+				'fly-plane-clear': {
 					'0%': {
-						transform: 'translate(0, calc(100vh - 80px)) rotate(45deg)',
-						opacity: '1'
+						transform: 'translate(-100px, 200px) rotate(45deg) scale(0.5)',
+						opacity: '0'
+					},
+					'10%': {
+						opacity: '1',
+						transform: 'translate(-80px, 180px) rotate(45deg) scale(0.8)'
+					},
+					'90%': {
+						opacity: '1',
+						transform: 'translate(calc(100vw - 100px), -150px) rotate(45deg) scale(1.2)'
 					},
 					'100%': {
-						transform: 'translate(calc(100vw - 80px), -80px) rotate(45deg)',
+						transform: 'translate(calc(100vw + 50px), -200px) rotate(45deg) scale(0.8)',
 						opacity: '0'
 					}
 				},
-				'ride-bike': {
+				'ride-bike-clear': {
 					'0%': {
-						transform: 'translateX(calc(100vw + 80px))',
-						opacity: '1'
+						transform: 'translateX(calc(100vw + 150px)) scale(0.5)',
+						opacity: '0'
+					},
+					'10%': {
+						opacity: '1',
+						transform: 'translateX(calc(100vw + 100px)) scale(0.8)'
+					},
+					'90%': {
+						opacity: '1',
+						transform: 'translateX(-100px) scale(1.2)'
 					},
 					'100%': {
-						transform: 'translateX(-80px)',
+						transform: 'translateX(-200px) scale(0.8)',
 						opacity: '0'
 					}
 				},
-				'drive-car': {
+				'drive-car-clear': {
 					'0%': {
-						transform: 'translateX(calc(100vw + 80px))',
-						opacity: '1'
+						transform: 'translateX(calc(100vw + 150px)) scale(0.5)',
+						opacity: '0'
+					},
+					'10%': {
+						opacity: '1',
+						transform: 'translateX(calc(100vw + 100px)) scale(0.8)'
+					},
+					'90%': {
+						opacity: '1',
+						transform: 'translateX(-100px) scale(1.2)'
 					},
 					'100%': {
-						transform: 'translateX(-80px)',
+						transform: 'translateX(-200px) scale(0.8)',
 						opacity: '0'
 					}
 				},
@@ -146,9 +171,9 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.6s ease-out forwards',
-				'fly-plane': 'fly-plane 1s ease-out',
-				'ride-bike': 'ride-bike 1s ease-out',
-				'drive-car': 'drive-car 1s ease-out',
+				'fly-plane-clear': 'fly-plane-clear 1.5s ease-out',
+				'ride-bike-clear': 'ride-bike-clear 1.5s ease-out',
+				'drive-car-clear': 'drive-car-clear 1.5s ease-out',
 				'dash': 'dash 2s ease-in-out infinite',
 				'draw-path': 'draw-path 2s ease-in-out infinite'
 			}

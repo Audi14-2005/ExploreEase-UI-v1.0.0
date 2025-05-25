@@ -24,8 +24,8 @@ const OnboardingFlow = () => {
         setCurrentScreen(currentScreen + 1);
         setTimeout(() => {
           setIsTransitioning(false);
-        }, 100);
-      }, 1000);
+        }, 200);
+      }, 1500);
     }
   };
 
@@ -62,29 +62,29 @@ const OnboardingFlow = () => {
         </div>
       </div>
 
-      {/* Travel Animations */}
+      {/* Large Travel Animations - Much More Visible */}
       {isTransitioning && (
-        <div className="absolute inset-0 z-30 pointer-events-none">
+        <div className="absolute inset-0 z-40 pointer-events-none">
           {currentAnimation === 'plane' && (
-            <div className="absolute bottom-10 left-10 text-6xl animate-fly-plane">
+            <div className="absolute bottom-20 left-20 text-8xl animate-fly-plane-clear drop-shadow-2xl">
               ✈️
             </div>
           )}
           {currentAnimation === 'bike' && (
-            <div className="absolute top-1/2 right-10 text-6xl animate-ride-bike">
+            <div className="absolute top-1/2 -translate-y-1/2 right-20 text-8xl animate-ride-bike-clear drop-shadow-2xl">
               🚴‍♂️
             </div>
           )}
           {currentAnimation === 'car' && (
-            <div className="absolute top-1/2 right-10 text-6xl animate-drive-car">
+            <div className="absolute top-1/2 -translate-y-1/2 right-20 text-8xl animate-drive-car-clear drop-shadow-2xl">
               🚗
             </div>
           )}
         </div>
       )}
 
-      {/* Screen Content */}
-      <div className={`transition-all duration-700 ${isTransitioning ? 'opacity-30 scale-95' : 'opacity-100 scale-100'}`}>
+      {/* Screen Content with Enhanced Transition */}
+      <div className={`transition-all duration-1000 ${isTransitioning ? 'opacity-20 scale-90 blur-sm' : 'opacity-100 scale-100 blur-0'}`}>
         <CurrentScreenComponent onNext={handleNext} currentScreen={currentScreen} totalScreens={screens.length} />
       </div>
     </div>
