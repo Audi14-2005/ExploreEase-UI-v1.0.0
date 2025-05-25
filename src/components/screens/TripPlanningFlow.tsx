@@ -84,6 +84,7 @@ const TripPlanningFlow = ({ onBack }: TripPlanningFlowProps) => {
   const handleTransportNext = () => {
     // If car, bike, or cab is selected for "Plan Your Own Trip", show routes page
     if (tripData.tripType === 'own' && (tripData.transport === 'car' || tripData.transport === 'bike' || tripData.transport === 'cab')) {
+      console.log('Should show routes page for transport:', tripData.transport);
       setShowRoutesPage(true);
     } else {
       handleNext();
@@ -144,7 +145,7 @@ const TripPlanningFlow = ({ onBack }: TripPlanningFlowProps) => {
       case 7:
         return <SummaryStep tripData={tripData} onNext={handleNext} />;
       case 8:
-        return <TripConfirmationStep tripData={tripData} onNext={handleNext} />;
+        return <TripConfirmationStep tripData={tripData} onNext={handleNext} onBack={onBack} />;
       default:
         return <TripTypeStep tripData={tripData} setTripData={setTripData} onNext={handleNext} />;
     }
@@ -1018,8 +1019,8 @@ const SummaryStep = ({ tripData, onNext }: any) => {
   );
 };
 
-// Step 7: Trip Confirmation - Fixed to properly save trips
-const TripConfirmationStep = ({ tripData, onNext }: any) => {
+// Step 7: Trip Confirmation - Fixed to properly save trips and navigate back
+const TripConfirmationStep = ({ tripData, onNext, onBack }: any) => {
   const handleConfirmTrip = () => {
     // Calculate total cost based on trip type
     const totalCost = tripData.tripType === 'package' ? 45000 : 
@@ -1059,7 +1060,14 @@ const TripConfirmationStep = ({ tripData, onNext }: any) => {
 
     console.log('Trip confirmed and saved to history:', newTrip);
     console.log('All trips in history:', existingTrips);
-    onNext();
+    
+    // Navigate back to home page
+    onBack();
+  };
+
+  const handlePlanAnother = () => {
+    // Navigate back to home page
+    onBack();
   };
 
   return (
@@ -1090,7 +1098,7 @@ const TripConfirmationStep = ({ tripData, onNext }: any) => {
         <Button
           variant="outline"
           className="w-full h-12 rounded-xl"
-          onClick={() => window.location.reload()}
+          onClick={handlePlanAnother}
         >
           Plan Another Trip
         </Button>
