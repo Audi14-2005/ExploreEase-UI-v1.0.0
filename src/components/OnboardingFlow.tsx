@@ -78,10 +78,10 @@ const OnboardingFlow = () => {
               <div className="absolute top-1/2 -translate-y-1/2 right-20 text-8xl animate-drive-car-clear drop-shadow-2xl">
                 🚗
               </div>
-              {/* Improved road with surface and animated dashed lines */}
-              <div className="absolute top-1/2 translate-y-4 w-full h-8 bg-gray-600 opacity-70 animate-road-surface"></div>
-              <div className="absolute top-1/2 translate-y-6 w-full h-1 bg-yellow-300 opacity-90 animate-road-lines" style={{backgroundImage: 'repeating-linear-gradient(to right, transparent 0px, transparent 20px, #FDE047 20px, #FDE047 40px)'}}></div>
-              <div className="absolute top-1/2 translate-y-8 w-full h-1 bg-yellow-300 opacity-90 animate-road-lines" style={{backgroundImage: 'repeating-linear-gradient(to right, transparent 0px, transparent 20px, #FDE047 20px, #FDE047 40px)', animationDelay: '0.4s'}}></div>
+              {/* Wind effects only - no ugly road lines */}
+              <div className="absolute top-1/2 right-32 text-2xl opacity-60 animate-wind-1">💨</div>
+              <div className="absolute top-1/2 right-48 text-xl opacity-40 animate-wind-2">💨</div>
+              <div className="absolute top-1/2 right-64 text-3xl opacity-30 animate-wind-3">💨</div>
             </>
           )}
         </div>

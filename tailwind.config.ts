@@ -98,16 +98,16 @@ export default {
 				},
 				'fly-plane-diagonal': {
 					'0%': {
-						transform: 'translate(0vw, 80vh) rotate(-45deg) scale(0.5)',
+						transform: 'translate(0vw, 100vh) rotate(-45deg) scale(0.5)',
 						opacity: '0'
 					},
 					'10%': {
 						opacity: '1',
-						transform: 'translate(5vw, 75vh) rotate(-45deg) scale(0.8)'
+						transform: 'translate(10vw, 90vh) rotate(-45deg) scale(0.8)'
 					},
 					'90%': {
 						opacity: '1',
-						transform: 'translate(85vw, 10vh) rotate(-45deg) scale(1.2)'
+						transform: 'translate(90vw, 10vh) rotate(-45deg) scale(1.2)'
 					},
 					'100%': {
 						transform: 'translate(100vw, 0vh) rotate(-45deg) scale(0.8)',
@@ -143,14 +143,6 @@ export default {
 					'0%': { transform: 'translateX(0) scale(1.2)', opacity: '0.3' },
 					'50%': { transform: 'translateX(-50px) scale(1.5)', opacity: '0.5' },
 					'100%': { transform: 'translateX(-100px) scale(1)', opacity: '0' }
-				},
-				'road-surface': {
-					'0%': { transform: 'translateX(100vw)', opacity: '0.8' },
-					'100%': { transform: 'translateX(-100vw)', opacity: '0.8' }
-				},
-				'road-lines': {
-					'0%': { transform: 'translateX(100vw)', opacity: '1' },
-					'100%': { transform: 'translateX(-200vw)', opacity: '1' }
 				},
 				'ride-bike-clear': {
 					'0%': {
@@ -216,8 +208,6 @@ export default {
 				'wind-1': 'wind-1 1s ease-out infinite',
 				'wind-2': 'wind-2 1.2s ease-out infinite 0.3s',
 				'wind-3': 'wind-3 1.5s ease-out infinite 0.6s',
-				'road-surface': 'road-surface 1.5s linear',
-				'road-lines': 'road-lines 0.8s linear infinite',
 				'ride-bike-clear': 'ride-bike-clear 1.5s ease-out',
 				'drive-car-clear': 'drive-car-clear 1.5s ease-out',
 				'dash': 'dash 2s ease-in-out infinite',
