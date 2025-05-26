@@ -1,21 +1,20 @@
 {
-  "name": "Vercel",
-  "short_name": "Vercel",
+  "short_name": "ExploreEase",
+  "name": "ExploreEase UI App",
   "icons": [
     {
-      "src": "https://assets.vercel.com/image/upload/v1573246280/front/favicon/vercel/android-chrome-192x192.png",
+      "src": "icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "https://assets.vercel.com/image/upload/v1573246280/front/favicon/vercel/android-chrome-512x512.png",
+      "src": "icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
-  "theme_color": "#000000",
-  "background_color": "#000000",
+  "start_url": ".",
   "display": "standalone",
-  "start_url": "explore-ease-ui-v1-0-0-539ea2t5k.vercel.app",
-  "dir": "auto"
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
 }
